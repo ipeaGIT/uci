@@ -63,10 +63,11 @@ uci <- function(sf_object,
   assert_var_name(sf_object, var_name)
   
   # config progress bar
-  if (isFALSE(progress)) { pb_original <- pbapply::pboptions()
-  pbapply::pboptions(type = "none")
+  if (isFALSE(progress)) { 
+    pb_original <- pbapply::pboptions()
+    pbapply::pboptions(type = "none")
+    on.exit( pbapply::pboptions(pb_original) )
   }
-  on.exit( pbapply::pboptions(pb_original) )
   
   
   
