@@ -45,7 +45,8 @@ head(grid)
 df <- uci(
        sf_object = grid,
        var_name = 'jobs',
-       boostrap_border = FALSE
+       boostrap_border = FALSE,
+       showProgress = TRUE
        )
 
 head(df)

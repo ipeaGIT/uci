@@ -22,7 +22,7 @@
 #'        separation found. This approach is more computationally expensive and
 #'        although it might not return the maximum theoretical value of spatial
 #'        separation, it is probably very close to it.
-#' @param progress A `logical`. Indicates whether to show a progress bar for the
+#' @param showProgress A `logical`. Indicates whether to show a progress bar for the
 #'        boostrap simulation. Defaults to `TRUE`.
 #' 
 #' @family urban centrality index
@@ -45,25 +45,25 @@
 #'         sf_object = grid,
 #'         var_name = 'jobs',
 #'         boostrap_border = TRUE,
-#'         progress = TRUE
+#'         showProgress = TRUE
 #'         )
 #' head(df2)
 #' @export
 uci <- function(sf_object, 
                 var_name, 
                 boostrap_border = FALSE,
-                progress = TRUE
+                showProgress = TRUE
                 ){
   
   # check inputs
   checkmate::assert_class(sf_object, 'sf')
   checkmate::assert_string(var_name)
   checkmate::assert_logical(boostrap_border, len = 1, any.missing = FALSE)
-  checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(showProgress, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
   
   # config progress bar
-  if (isFALSE(progress)) { 
+  if (isFALSE(showProgress)) { 
     pb_original <- pbapply::pboptions()
     pbapply::pboptions(type = "none")
     on.exit( pbapply::pboptions(pb_original) )
@@ -162,7 +162,7 @@ uci <- function(sf_object,
     #     sf_object = sf_border,
     #     output = 'vector',
     #     boostrap_border = boostrap_border,
-    #     .progress = TRUE,
+    #     .progress = showProgress,
     #     .options = furrr_options(seed = 42)
     #   )
     # }
@@ -183,7 +183,7 @@ uci <- function(sf_object,
     #   all_sim_venables <- furrr::future_map(.x = all_sim,
     #                                         .f = venables,
     #                                         distance = distance_border,
-    #                                         .progress = TRUE)
+    #                                         .progress = showProgress)
     # }
     
     # get max venables spatial separation value from all simulations
