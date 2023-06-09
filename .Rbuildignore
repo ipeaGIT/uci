@@ -1,0 +1,11 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.github$
+^tests_rafa$
+^codecov\.yml$
+^cran-comments\.md$
+^CRAN-SUBMISSION$
+^README\.Rmd$
+^README\.html$
+^_pkgdown\.yml$
+^codemeta\.json$
