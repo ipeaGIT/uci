@@ -10,14 +10,20 @@
 uci(sf_object, var_name, full_border = FALSE)
 }
 \arguments{
-\item{sf_object}{A \code{sf}. A number indicating the travel cost cutoff.}
+\item{sf_object}{A \verb{POLYGON sf data.frame} of the study area.}
 
-\item{var_name}{A \code{string}. A col name}
+\item{var_name}{A \code{string}. The name of the column in \code{sf_object} with the
+number of activities/opportunities/resources/services to be considered
+when calculating urban centrality levels.}
 
 \item{full_border}{A \code{lo}. t}
 }
 \description{
-Urban Centrality Index
+Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \url{https://doi.org/10.1111/gean.12002}. The UCI measures the
+extent to which the spatial organization of a city or region varies from
+extreme monocentric to extreme polycentric in a continuous scale from 0 to 1.
+Values close to 0 indicate more polycentric patterns and values close to 1
+indicate a more monocentric urban form.
 
 Calculate Urban Centrality Index
 }
