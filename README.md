@@ -1,5 +1,16 @@
 # uci: Urban Centrality Index
 
+[![CRAN
+   status](https://www.r-pkg.org/badges/version/uci)](https://CRAN.R-project.org/package=uci)
+[![R-CMD-check](https://github.com/rafapereirabr/uci/workflows/R-CMD-check/badge.svg)](https://github.com/rafapereirabr/uci/actions)
+[![CRAN/METACRAN Total
+   downloads](http://cranlogs.r-pkg.org/badges/grand-total/uci?color=yellow)](https://CRAN.R-project.org/package=uci)
+[![Codecov test
+coverage](https://codecov.io/gh/rafapereirabr/uci/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rafapereirabr/uci?branch=main)
+[![DOI](https://img.shields.io/badge/DOI-10.1111/gean.12002-blue)](https://doi.org/10.1111/gean.12002)
+[![Lifecycle:
+     experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
+
 **uci** is an `R` package to calculate the Urban Centrality Index (UCI) originally proposed by Pereira et al., (2013). The UCI measures the extent to which the spatial organization of a city or region varies from extreme monocentric to extreme polycentric in a continuous scale from 0 to 1. Values close to 0 indicate more polycentric patterns and values close to 1 indicate a more monocentric urban form.
 
 - Pereira, R. H. M., Nadalin, V., Monasterio, L., & Albuquerque, P. H. (2013). **Urban centrality: a simple index**. *Geographical analysis*, 45(1), 77-89. [https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002](https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002)
