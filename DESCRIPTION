@@ -26,6 +26,7 @@ Imports:
 Suggests: 
     covr,
     knitr,
+    ggplot2,
     rmarkdown,
     stats,
     testthat
