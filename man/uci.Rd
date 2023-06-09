@@ -22,11 +22,10 @@ data_dir <- system.file("extdata", package = "uci")
 grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 
 # active accessibility: number of schools accessible from each origin
- df <- uci2(
+ df <- uci(
         sf_object = grid,
         var_name = 'jobs',
-        full_border = TRUE,
-        parallel = F
+        full_border = TRUE
         )
 head(df)
 

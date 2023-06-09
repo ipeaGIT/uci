@@ -1,0 +1,15 @@
+citHeader("To cite uci in publications use:")
+
+bibentry(
+  bibtype  = "Article",
+  title    = "Urban Centrality: A Simple Index",
+  author   = "Rafael H. M. Pereira [aut, cre], Vanessa Nadalin [aut], Leonardo Monasterio [aut], Pedro H. Albuquerque [aut]",
+  journal  = "Geographical analysis",
+  volume   = {45},
+  number   = {1},
+  pages    = {77--89},
+  year     = "2013",
+  doi      = "10.1111/gean.12002",
+  url      = "https://doi.org/10.1111/gean.12002",
+  textVersion = "Pereira, R. H. M., Nadalin, V., Monasterio, L., & Albuquerque, P. H. (2013). Urban centrality: a simple index. Geographical analysis, 45(1), 77-89. https://doi.org/10.1111/gean.12002."
+)

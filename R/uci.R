@@ -1,7 +1,7 @@
-#' Cumulative access based on a travel cost cutoff
+#' Urban Centrality Index
 #'
-#' Calculates the number of opportunities accessible under a given specified
-#' travel cost cutoff.
+#' Urban Centrality Index
+#' 
 #' @param sf_object A `sf`. A number indicating the travel cost cutoff.
 #' @param var_name A `string`. A col name
 #' @param full_border A `lo`. t
@@ -9,10 +9,11 @@
 #' @family urban centrality index
 #'
 #' @examples
+#' # load data
 #' data_dir <- system.file("extdata", package = "uci")
 #' grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 #'
-#' # active accessibility: number of schools accessible from each origin
+#' # calculate UCI
 #'  df <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
