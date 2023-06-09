@@ -9,3 +9,5 @@
 ^README\.html$
 ^_pkgdown\.yml$
 ^codemeta\.json$
+^docs$
+^pkgdown$
