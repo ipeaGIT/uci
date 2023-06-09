@@ -1,4 +1,4 @@
-url: ~
-template:
-  bootstrap: 5
-
+reference:
+  - title: "Urban Centrality Index"
+  - contents:
+    - uci 

@@ -1,9 +1,9 @@
 ---
-title: "Introduction to UCI: calculating urban centrality index"
+title: "Introduction to uci: urban centrality index"
 output: rmarkdown::html_vignette
 bibliography: '`r system.file("REFERENCES.bib", package = "uci")`'
 vignette: >
-  %\VignetteIndexEntry{Introduction to uci: calculating urban centrality index} 
+  %\VignetteIndexEntry{Introduction to uci: urban centrality index} 
   %\VignetteEngine{knitr::rmarkdown} 
   %\VignetteEncoding{UTF-8}
 ---
