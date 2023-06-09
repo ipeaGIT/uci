@@ -1,17 +1,28 @@
 #' Urban Centrality Index
 #'
-#' Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) <https://doi.org/10.1111/gean.12002>. The UCI measures the 
-#' extent to which the spatial organization of a city or region varies from 
-#' extreme monocentric to extreme polycentric in a continuous scale from 0 to 1. 
-#' Values close to 0 indicate more polycentric patterns and values close to 1 
-#' indicate a more monocentric urban form.
+#' Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) <https://doi.org/10.1111/gean.12002>. 
+#' The UCI measures the extent to which the spatial organization of a city or 
+#' region varies from extreme monocentric to extreme polycentric in a continuous 
+#' scale from 0 to 1. Values close to 0 indicate more polycentric patterns and 
+#' values close to 1 indicate a more monocentric urban form.
 #' 
 #' @param sf_object A `POLYGON sf data.frame` of the study area.
 #' @param var_name A `string`. The name of the column in `sf_object` with the 
 #'        number of activities/opportunities/resources/services to be considered 
 #'        when calculating urban centrality levels.
-#' @param full_border A `lo`. t
-#'
+#' @param boostrap_border A `logical`. The calculation of UCI requires one to 
+#'        find the maximum value of the Venables spatial separation index of the 
+#'        study area. If `boostrap_border = FALSE` (Default), the function uses 
+#'        a heuristic approach that assumes that the max spatial separation would 
+#'        occur when all activities were equaly distributed along the border of 
+#'        the study  area. This is a fast approach, but it does not reach the 
+#'        maximum spatial separation. Alternatively, if `boostrap_border = FALSE`, 
+#'        the function uses a boostrap approach that simulates 20000 random 
+#'        distributions of activities along the border and uses the max spatial 
+#'        separation found. This approach is more computationally expensive and
+#'        although it might not return the maximum theoretical value of spatial
+#'        separation, it is probably very close to it.
+#'         
 #' @family urban centrality index
 #'
 #' @examples
@@ -20,23 +31,30 @@
 #' grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 #'
 #' # calculate UCI
-#'  df <- uci(
+#' df <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
-#'         full_border = TRUE
+#'         boostrap_border = FALSE
 #'         )
 #' head(df)
-#'
+#' 
+#' # calculate UCI with boostrap
+#' df2 <- uci(
+#'         sf_object = grid,
+#'         var_name = 'jobs',
+#'         boostrap_border = TRUE
+#'         )
+#' head(df2)
 #' @export
 uci <- function(sf_object, 
                 var_name, 
-                full_border = FALSE
+                boostrap_border = FALSE
                 ){
   
   # check inputs
   checkmate::assert_class(sf_object, 'sf')
   checkmate::assert_string(var_name)
-  checkmate::assert_logical(full_border, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(boostrap_border, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
   
   # change projection to UTM
@@ -90,19 +108,19 @@ uci <- function(sf_object,
   distance_border <- get_distance_matrix(sf_border)
   
   ### HEURISTIC max venables considering full border
-  if(isTRUE(full_border)) {
+  if(isFALSE(boostrap_border)) {
     
-    b_full_border <- simulate_border_config(
+    b_boostrap_border <- simulate_border_config(
       sf_object = sf_border,
       nbc = 1, # nbc does not matter
       output = 'vector',
-      full_border = full_border
+      boostrap_border = boostrap_border
     )
-    max_venables <- venables(b = b_full_border, distance = distance_border)
+    max_venables <- venables(b = b_boostrap_border, distance = distance_border)
   }
   
   ### BOOSTRAP simulations to find max venables
-  if (isFALSE(full_border)) {
+  if (isTRUE(boostrap_border)) {
     
     # input for number of simulations
     number_busy_cells <- 2:51
@@ -113,12 +131,12 @@ uci <- function(sf_object,
       
       # if progress == FALSE, pboptions(type = "none")
       set.seed(42)
-      all_sim <- pbapply::pblapply(
+      all_sim <- lapply(
         X = all_sim_input,
         FUN = simulate_border_config,
         sf_object = sf_border,
         output = 'vector',
-        full_border = full_border
+        boostrap_border = boostrap_border
       )
     # }
     
@@ -131,7 +149,7 @@ uci <- function(sf_object,
     #     .f = simulate_border_config,
     #     sf_object = sf_border,
     #     output = 'vector',
-    #     full_border = full_border,
+    #     boostrap_border = boostrap_border,
     #     .progress = TRUE,
     #     .options = furrr_options(seed = 42)
     #   )

@@ -7,7 +7,7 @@
 \alias{uci-package}
 \title{Urban Centrality Index}
 \usage{
-uci(sf_object, var_name, full_border = FALSE)
+uci(sf_object, var_name, boostrap_border = FALSE)
 }
 \arguments{
 \item{sf_object}{A \verb{POLYGON sf data.frame} of the study area.}
@@ -16,14 +16,25 @@ uci(sf_object, var_name, full_border = FALSE)
 number of activities/opportunities/resources/services to be considered
 when calculating urban centrality levels.}
 
-\item{full_border}{A \code{lo}. t}
+\item{boostrap_border}{A \code{logical}. The calculation of UCI requires one to
+find the maximum value of the Venables spatial separation index of the
+study area. If \code{boostrap_border = FALSE} (Default), the function uses
+a heuristic approach that assumes that the max spatial separation would
+occur when all activities were equaly distributed along the border of
+the study  area. This is a fast approach, but it does not reach the
+maximum spatial separation. Alternatively, if \code{boostrap_border = FALSE},
+the function uses a boostrap approach that simulates 20000 random
+distributions of activities along the border and uses the max spatial
+separation found. This approach is more computationally expensive and
+although it might not return the maximum theoretical value of spatial
+separation, it is probably very close to it.}
 }
 \description{
-Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \url{https://doi.org/10.1111/gean.12002}. The UCI measures the
-extent to which the spatial organization of a city or region varies from
-extreme monocentric to extreme polycentric in a continuous scale from 0 to 1.
-Values close to 0 indicate more polycentric patterns and values close to 1
-indicate a more monocentric urban form.
+Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \url{https://doi.org/10.1111/gean.12002}.
+The UCI measures the extent to which the spatial organization of a city or
+region varies from extreme monocentric to extreme polycentric in a continuous
+scale from 0 to 1. Values close to 0 indicate more polycentric patterns and
+values close to 1 indicate a more monocentric urban form.
 
 Calculate Urban Centrality Index
 }
@@ -42,7 +53,7 @@ grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
  df <- uci(
         sf_object = grid,
         var_name = 'jobs',
-        full_border = TRUE
+        boostrap_border = T
         )
 head(df)
 
