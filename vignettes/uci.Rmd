@@ -1,0 +1,88 @@
+---
+title: "Introduction to UCI: calculating urban centrality index"
+output: rmarkdown::html_vignette
+bibliography: '`r system.file("REFERENCES.bib", package = "uci")`'
+vignette: >
+  %\VignetteIndexEntry{Introduction to uci: calculating urban centrality index} 
+  %\VignetteEngine{knitr::rmarkdown} 
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+**uci** is an `R` package to measure the centrality of cities and regions. The package implements the Urban Centrality Index (UCI) originally proposed by @pereira2013urbancentrality. UCI measures the extent to which the spatial organization of a city varies from extreme monocentric to extreme polycentric in a continuous scale, rather than considering a binary classification (*either* monocentric *or* polycentric). UCI values range from 0 to 1. Values close to 0 indicate more polycentric patterns and values close to 1 indicate a more monocentric urban form.
+
+
+# Installation
+
+For now, the package is only available from GitHub.
+
+```{r, eval = FALSE}
+remotes::install_github("ipeaGIT/uci")
+
+```
+
+
+
+# Demonstration on sample data
+
+```{r, message = FALSE, warning = FALSE}
+library(uci)
+library(sf)
+library(ggplot2)
+```
+
+## Data input
+
+text
+
+```{r}
+data_dir <- system.file("extdata", package = "uci")
+
+grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
+head(grid)
+```
+text
+
+```{r, eval = requireNamespace(c("sf", "ggplot2"), quietly = TRUE), out.width = "80%", fig.width = 6, fig.height = 6}
+
+ggplot(data = grid) +
+  geom_sf(aes(fill = jobs), color = NA) +
+  scale_fill_viridis_c() +
+  theme_void()
+
+```
+
+## Calculating UCI
+
+
+```{r}
+df <- uci(
+  sf_object = grid,
+  var_name = 'jobs'
+  )
+
+head(df)
+```
+
+### Boostrap
+
+Using boostrap to find max Venables spatial separation:
+
+```{r}
+df_bootstrap <- uci(
+  sf_object = grid,
+  var_name = 'jobs',
+  boostrap_border = TRUE,
+  showProgress = FALSE
+)
+
+head(df_bootstrap)
+```
+
+# References

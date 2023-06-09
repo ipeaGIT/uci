@@ -2,11 +2,11 @@
 
 [![CRAN
    status](https://www.r-pkg.org/badges/version/uci)](https://CRAN.R-project.org/package=uci)
-[![R-CMD-check](https://github.com/rafapereirabr/uci/workflows/R-CMD-check/badge.svg)](https://github.com/rafapereirabr/uci/actions)
+[![R-CMD-check](https://github.com/ipeaGIT/uci/workflows/R-CMD-check/badge.svg)](https://github.com/ipeaGIT/uci/actions)
 [![CRAN/METACRAN Total
    downloads](http://cranlogs.r-pkg.org/badges/grand-total/uci?color=yellow)](https://CRAN.R-project.org/package=uci)
 [![Codecov test
-coverage](https://codecov.io/gh/rafapereirabr/uci/branch/main/graph/badge.svg)](https://app.codecov.io/gh/rafapereirabr/uci?branch=main)
+coverage](https://codecov.io/gh/ipeaGIT/uci/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/uci?branch=main)
 [![DOI](https://img.shields.io/badge/DOI-10.1111/gean.12002-blue)](https://doi.org/10.1111/gean.12002)
 [![Lifecycle:
      experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
@@ -24,7 +24,7 @@ For now, you can install the dev version of `uci`:
 
 ```R
 utils::remove.packages('uci')
-devtools::install_github("rafapereirabr/uci")
+devtools::install_github("ipeaGIT/uci")
 library(uci)
 
 ```
