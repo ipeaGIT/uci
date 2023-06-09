@@ -22,7 +22,9 @@
 #'        separation found. This approach is more computationally expensive and
 #'        although it might not return the maximum theoretical value of spatial
 #'        separation, it is probably very close to it.
-#'         
+#' @param progress A `logical`. Indicates whether to show a progress bar for the
+#'        boostrap simulation. Defaults to `TRUE`.
+#' 
 #' @family urban centrality index
 #'
 #' @examples
@@ -42,24 +44,34 @@
 #' df2 <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
-#'         boostrap_border = TRUE
+#'         boostrap_border = TRUE,
+#'         progress = TRUE
 #'         )
 #' head(df2)
 #' @export
 uci <- function(sf_object, 
                 var_name, 
-                boostrap_border = FALSE
+                boostrap_border = FALSE,
+                progress = TRUE
                 ){
   
   # check inputs
   checkmate::assert_class(sf_object, 'sf')
   checkmate::assert_string(var_name)
   checkmate::assert_logical(boostrap_border, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(progress, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
+  
+  # config progress bar
+  if (isFALSE(progress)) { pb_original <- pbapply::pboptions()
+  pbapply::pboptions(type = "none")
+  }
+  on.exit( pbapply::pboptions(pb_original) )
+  
+  
   
   # change projection to UTM
   sf_object <- suppressWarnings(sf::st_transform(sf_object, 3857))
-  
 
   ###### observed Location Coefficient -----------------------------------------------------
   
@@ -129,7 +141,6 @@ uci <- function(sf_object,
     # linear
     # if (isFALSE(parallel)) {
       
-      # if progress == FALSE, pboptions(type = "none")
       set.seed(42)
       all_sim <- lapply(
         X = all_sim_input,
@@ -159,9 +170,11 @@ uci <- function(sf_object,
     
     # linear
     # if (isFALSE(parallel)) {
+      
       all_sim_venables <- pbapply::pblapply(X = all_sim,
                                             FUN = venables,
                                             distance = distance_border)
+      
     # }
     
     # # parallel

@@ -7,7 +7,7 @@
 \alias{uci-package}
 \title{Urban Centrality Index}
 \usage{
-uci(sf_object, var_name, boostrap_border = FALSE)
+uci(sf_object, var_name, boostrap_border = FALSE, progress = TRUE)
 }
 \arguments{
 \item{sf_object}{A \verb{POLYGON sf data.frame} of the study area.}
@@ -28,6 +28,9 @@ distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
 although it might not return the maximum theoretical value of spatial
 separation, it is probably very close to it.}
+
+\item{progress}{A \code{logical}. Indicates whether to show a progress bar for the
+boostrap simulation. Defaults to \code{TRUE}.}
 }
 \description{
 Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \url{https://doi.org/10.1111/gean.12002}.
@@ -50,13 +53,21 @@ data_dir <- system.file("extdata", package = "uci")
 grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 
 # calculate UCI
- df <- uci(
+df <- uci(
         sf_object = grid,
         var_name = 'jobs',
-        boostrap_border = T
+        boostrap_border = FALSE
         )
 head(df)
 
+# calculate UCI with boostrap
+df2 <- uci(
+        sf_object = grid,
+        var_name = 'jobs',
+        boostrap_border = TRUE,
+        progress = TRUE
+        )
+head(df2)
 }
 \seealso{
 Useful links:
