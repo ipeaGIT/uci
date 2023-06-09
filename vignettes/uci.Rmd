@@ -31,6 +31,8 @@ remotes::install_github("ipeaGIT/uci")
 
 # Demonstration on sample data
 
+First, let's load a few libraries we'll be using in this vignette.
+
 ```{r, message = FALSE, warning = FALSE}
 library(uci)
 library(sf)
@@ -39,7 +41,9 @@ library(ggplot2)
 
 ## Data input
 
-text
+The **uci** package comes with a sample data for demonstration and test purposes. The data is a small sample of the spatial distribution of the population, jobs and schools around the city center of Belo Horizonte, Brazil. This sample data set is a good illustration of the type of data input required by **uci**.
+
+Here is how the sample data looks like:
 
 ```{r}
 data_dir <- system.file("extdata", package = "uci")
@@ -47,7 +51,9 @@ data_dir <- system.file("extdata", package = "uci")
 grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 head(grid)
 ```
-text
+The data is an object of class `"sf" "data.frame"` with spatial polygons covering our study area and a few columns indicating the number of activities (e.g. jobs, schools, population) in each polygon. Our particular sample data is based on a spatial hexagonal grid (H3 index). While there are advantages of using regular spatial grids to calculate spatial statistics, **uci** also works with non-regular geometris, such as census tracts, enumeration areas or municipalities.
+
+We can visualize the spatial distribution of jobs using `ggplot2`:
 
 ```{r, eval = requireNamespace(c("sf", "ggplot2"), quietly = TRUE), out.width = "80%", fig.width = 6, fig.height = 6}
 
