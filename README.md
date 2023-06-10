@@ -1,4 +1,4 @@
-<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/Becerra_2015.png" alt="ipea" width="300">
+<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/Becerra_2015.png" alt="ipea" width="250">
 
 # uci: Urban Centrality Index
 
