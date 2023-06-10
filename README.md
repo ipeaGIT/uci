@@ -3,6 +3,8 @@
 [![CRAN
    status](https://www.r-pkg.org/badges/version/uci)](https://CRAN.R-project.org/package=uci)
 [![R-CMD-check](https://github.com/ipeaGIT/uci/workflows/rcmdcheck/badge.svg)](https://github.com/ipeaGIT/uci/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/ipeaGIT/uci/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/uci?branch=main)
 [![DOI](https://img.shields.io/badge/DOI-10.1111/gean.12002-blue)](https://doi.org/10.1111/gean.12002)
 [![Lifecycle:
      experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
