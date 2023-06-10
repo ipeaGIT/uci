@@ -69,7 +69,7 @@ values close to 1 indicate a more monocentric urban form.</p>
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">uci</span><span class="op">(</span><span class="va">sf_object</span>, <span class="va">var_name</span>, boostrap_border <span class="op">=</span> <span class="cn">FALSE</span>, showProgress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">uci</span><span class="op">(</span><span class="va">sf_object</span>, <span class="va">var_name</span>, bootstrap_border <span class="op">=</span> <span class="cn">FALSE</span>, showProgress <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -84,15 +84,15 @@ number of activities/opportunities/resources/services to be considered
 when calculating urban centrality levels.</p></dd>
 
 
-<dt>boostrap_border</dt>
+<dt>bootstrap_border</dt>
 <dd><p>A <code>logical</code>. The calculation of UCI requires one to
 find the maximum value of the Venables spatial separation index of the
-study area. If <code>boostrap_border = FALSE</code> (Default), the function uses
+study area. If <code>bootstrap_border = FALSE</code> (Default), the function uses
 a heuristic approach that assumes that the max spatial separation would
-occur when all activities were equaly distributed along the border of
+occur when all activities were equally distributed along the border of
 the study  area. This is a fast approach, but it does not reach the
-maximum spatial separation. Alternatively, if <code>boostrap_border = FALSE</code>,
-the function uses a boostrap approach that simulates 20000 random
+maximum spatial separation. Alternatively, if <code>bootstrap_border = FALSE</code>,
+the function uses a bootstrap approach that simulates 20000 random
 distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
 although it might not return the maximum theoretical value of spatial
@@ -101,7 +101,7 @@ separation, it is probably very close to it.</p></dd>
 
 <dt>showProgress</dt>
 <dd><p>A <code>logical</code>. Indicates whether to show a progress bar for the
-boostrap simulation. Defaults to <code>TRUE</code>.</p></dd>
+bootstrap simulation. Defaults to <code>TRUE</code>.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -109,7 +109,7 @@ boostrap simulation. Defaults to <code>TRUE</code>.</p></dd>
     
 
 <p>Please check the vignettes and data documentation on the
-<a href="https://rafapereirabr.github.io/uci/" class="external-link">website</a>.</p>
+<a href="https://ipeagit.github.io/uci/index.html">website</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="see-also">See also<a class="anchor" aria-label="anchor" href="#see-also"></a></h2>
@@ -133,22 +133,22 @@ boostrap simulation. Defaults to <code>TRUE</code>.</p></dd>
 <span class="r-in"><span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">uci</span><span class="op">(</span></span></span>
 <span class="r-in"><span>        sf_object <span class="op">=</span> <span class="va">grid</span>,</span></span>
 <span class="r-in"><span>        var_name <span class="op">=</span> <span class="st">'jobs'</span>,</span></span>
-<span class="r-in"><span>        boostrap_border <span class="op">=</span> <span class="cn">FALSE</span></span></span>
+<span class="r-in"><span>        bootstrap_border <span class="op">=</span> <span class="cn">FALSE</span></span></span>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         UCI location_coef spatial_separation spatial_separation_max</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2538635     0.5278007           3880.114               7475.899</span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="co"># calculate UCI with boostrap</span></span></span>
+<span class="r-in"><span><span class="co"># calculate UCI with bootstrap</span></span></span>
 <span class="r-in"><span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu">uci</span><span class="op">(</span></span></span>
 <span class="r-in"><span>        sf_object <span class="op">=</span> <span class="va">grid</span>,</span></span>
 <span class="r-in"><span>        var_name <span class="op">=</span> <span class="st">'jobs'</span>,</span></span>
-<span class="r-in"><span>        boostrap_border <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>        bootstrap_border <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
 <span class="r-in"><span>        showProgress <span class="op">=</span> <span class="cn">TRUE</span></span></span>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         UCI location_coef spatial_separation spatial_separation_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2561141     0.5278007           3880.114               7537.828</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2557999     0.5278007           3880.114                7529.12</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
