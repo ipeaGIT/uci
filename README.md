@@ -1,3 +1,5 @@
+<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/Becerra_2015.png" alt="ipea" width="250">
+
 # uci: Urban Centrality Index
 
 [![CRAN
@@ -23,7 +25,6 @@ devtools::install_github("ipeaGIT/uci")
 library(uci)
 
 ```
-
 
 
 ## Basic Usage
@@ -62,8 +63,7 @@ head(df)
 ```
 
 
-
-# Citation <img align="right" src="r-package/man/figures/ipea_logo.png" alt="ipea" width="300">
+# Citation <img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/ipea_logo.png" alt="ipea" width="300">
 
  The R package **uci** is developed by a team at the Institute for Applied 
  Economic Research (Ipea), Brazil. If you use this package in research 
@@ -86,3 +86,6 @@ BibTeX:
   doi = {10.1111/gean.12002}
 }
 ```
+
+# Aknowledgement
+The Hex image above illustrates Christaller’s Central Place Theory. It was created by Christaller and adapted by Becerra, 2015.
