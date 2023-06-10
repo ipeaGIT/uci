@@ -1,4 +1,4 @@
-<img align="right" src="/man/figures/Becerra_2015.png" alt="ipea" width="300">
+<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/Becerra_2015.png" alt="ipea" width="300">
 
 # uci: Urban Centrality Index
 
@@ -63,7 +63,7 @@ head(df)
 ```
 
 
-# Citation <img align="right" src="/man/figures/ipea_logo.png" alt="ipea" width="300">
+# Citation <img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/ipea_logo.png" alt="ipea" width="300">
 
  The R package **uci** is developed by a team at the Institute for Applied 
  Economic Research (Ipea), Brazil. If you use this package in research 
