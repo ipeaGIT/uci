@@ -60,8 +60,6 @@ devtools::check(pkg = ".",  cran = FALSE, env_vars = c(NOT_CRAN = "true"))
 Sys.setenv(NOT_CRAN = "false")
 devtools::check(pkg = ".",  cran = TRUE, env_vars = c(NOT_CRAN = "false"))
 
-y <- m <- NULL
-
 
 # quick no vignettes
 devtools::check(pkg = ".",  cran = TRUE, env_vars = c(NOT_CRAN = "false"),vignettes = F)

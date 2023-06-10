@@ -20,8 +20,12 @@ knitr::opts_chunk$set(
 
 # Installation
 
-For now, the package is only available from GitHub.
-
+#>"rom CRAN:
+#>"``{r, eval = FALSE}
+#>"nstalled.packages('uci')
+#>"``
+#>"
+Development version from GitHub:
 ```{r, eval = FALSE}
 remotes::install_github("ipeaGIT/uci")
 
@@ -82,11 +86,11 @@ head(df)
 
 ## Formal definition of UCI
 
-The **Urban Centrality Index (UCI)** is given by the product of the Location Coefficient (LC) and the Proximity Index (PI). With this formulation, UCI calculates urban centrality simultenously accountig for both the **concentration** of activities and the **proximity** between activities.
+The **Urban Centrality Index (UCI)** is given by the product of the Location Coefficient (LC) and the Proximity Index (PI). With this formulation, UCI calculates urban centrality simultenously accountig for both the *concentration* of activities and the *proximity* between activities.
 
 $$
 \begin{aligned}
-UCI = LC  * PI∣
+UCI = LC  * PI
 \end{aligned}
 $$
 The **Location Coefficient (LC)** was introduced by @florence1948investment to measure the unequal distribution factor of jobs within an urban area. It works as *a nonspatial inequality measure* (similarly to Gini, for example). It reflects, for example, the extent to which the number of activities are concentrated in few polygons. The range of the LC is `0` to `(1 - 1/n)`. If LC equals zero, then economic activity is evenly distributed, while values close to `(1 - 1/n)` indicate that employment is concentrated in a few areas.
@@ -100,7 +104,7 @@ $$
 
 where `Si` is the share of employment in area i (Ei) relative to the total employment (E) of the city; E is the total number of jobs in a city; and n = number of areas.
 
-Meanwhile, the Proximity Index (PI) is a trasformation that @pereira2013urbancentrality proposed for the Venables index originally developed by @midelfart2002integration to examine changes in the spatial distribution of economic activity. The Venables index (*aka* spatial separation index) is defined as:
+Meanwhile, the **Proximity Index (PI)** is a trasformation that @pereira2013urbancentrality proposed for the Venables index, originally developed by @midelfart2002integration to examine changes in the spatial distribution of economic activity. The Venables index (*aka* spatial separation index) is defined as:
 
 $$
 \begin{aligned}
@@ -111,7 +115,7 @@ where `S` is a column vector of `Si`; and `D` is a distance matrix whose entry `
 
 When all employment activity is concentrated in just one spatial unit, the minimum value of `V` is reached; that is, zero (no matter where this spatial unit is located). However, the index has no *maximum* value and therefore cannot be compared across different spatial settings. To overcome this limitation, it is necessary to calculate the maximum attainable value of `V`.
 
-The created **Proximity Index (PI)** solves the normalization issue with `V` and changes its interpretation to suit our needs. The interpretation of PI is the opposite of `V`, with its theoretical range being `(0, 1)`. Values of PI closer to `1` mean that employment is clustered in one single center. If PI is `0`, employment is as spatially separated as possible. In other words, activities are distributed in a way that maximizes the distances between them.
+The **Proximity Index (PI)** solves the normalization issue with `V` and changes its interpretation to suit our needs. The interpretation of PI is the opposite of `V`, with its theoretical range being `(0, 1)`. Values of PI closer to `1` mean that employment is clustered in one single center. If PI is `0`, employment is as spatially separated as possible. In other words, activities are distributed in a way that maximizes the distances between them.
 
 $$
 \begin{aligned}

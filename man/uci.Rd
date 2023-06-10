@@ -73,6 +73,7 @@ head(df2)
 Useful links:
 \itemize{
   \item \url{https://github.com/rafapereirabr/uci}
+  \item \url{https://ipeagit.github.io/uci/}
   \item Report bugs at \url{https://github.com/rafapereirabr/uci/issues}
 }
 
