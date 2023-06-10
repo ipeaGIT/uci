@@ -13,7 +13,8 @@ Description: Calculates the Urban Centrality Index (UCI) as in Pereira et al.,
              scale from 0 to 1. Values close to 0 indicate more polycentric patterns
              and values close to 1 indicate a more monocentric urban form.
 License: MIT + file LICENSE
-URL: https://github.com/rafapereirabr/uci
+URL: https://github.com/rafapereirabr/uci,
+    https://ipeagit.github.io/uci/
 BugReports: https://github.com/rafapereirabr/uci/issues
 Depends: 
     R (>= 4.2.0)
