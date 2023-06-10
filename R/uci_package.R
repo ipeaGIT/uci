@@ -4,7 +4,7 @@
 #'
 #' @section Usage:
 #' Please check the vignettes and data documentation on the
-#' [website](https://rafapereirabr.github.io/uci/).
+#' [website](https://ipeagit.github.io/uci/index.html).
 #'
 #' @docType package
 #' @name uci

@@ -70,14 +70,14 @@ sample_positions <- function(nbc, candidate_positions){ # nbc = 50
 
 # simulate random spatial configurations / distributions along border
 #' @keywords internal
-simulate_border_config <- function(sf_object, nbc, output='vector', boostrap_border=boostrap_border){ # nbc = 100
+simulate_border_config <- function(sf_object, nbc, output='vector', bootstrap_border=bootstrap_border){ # nbc = 100
   
   # find positions of cells in the border 
   candidate_positions <- which(sf_object$border == 1, arr.ind=TRUE)
   
   # sample spatial distribution of busy cells
-  if( isFALSE(boostrap_border) ) { positions <- candidate_positions; nbc <- length(candidate_positions) }
-  if( isTRUE(boostrap_border) ) { positions <- sample_positions(nbc = nbc, candidate_positions = candidate_positions) }
+  if( isFALSE(bootstrap_border) ) { positions <- candidate_positions; nbc <- length(candidate_positions) }
+  if( isTRUE(bootstrap_border) ) { positions <- sample_positions(nbc = nbc, candidate_positions = candidate_positions) }
   
   if (output == 'spatial') {
     # number of jobs per cell

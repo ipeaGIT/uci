@@ -15,22 +15,20 @@ knitr::opts_chunk$set(
 )
 ```
 
-**uci** is an `R` package to measure the centrality of cities and regions. The package implements the Urban Centrality Index (UCI) originally proposed by @pereira2013urbancentrality. UCI measures the extent to which the spatial organization of a city varies from extreme monocentric to extreme polycentric in a continuous scale, rather than considering a binary classification (*either* monocentric *or* polycentric). UCI values range from 0 to 1. Values close to 0 indicate more polycentric patterns and values close to 1 indicate a more monocentric urban form.
+**uci** is an `R` package to measure the centrality of cities and regions. The package implements the Urban Centrality Index (UCI) originally proposed by @pereira2013urbancentrality. UCI measures the extent to which the spatial organization of a city varies from extreme monocentric to extreme polycentric in a continuous scale, rather than considering a binary classification (*either* monocentric *or* polycentric). UCI values range from 0 to 1. Values closer to 0 indicate more polycentric patterns and values closer to 1 indicate a more monocentric urban form.
 
 
 # Installation
 
-#>"rom CRAN:
-#>"``{r, eval = FALSE}
-#>"nstalled.packages('uci')
-#>"``
-#>"
-Development version from GitHub:
 ```{r, eval = FALSE}
+# from CRAN
+installed.packages('uci')
+
+
+# development version from GitHub
 remotes::install_github("ipeaGIT/uci")
 
 ```
-
 
 
 # Demonstration on sample data
@@ -55,7 +53,7 @@ data_dir <- system.file("extdata", package = "uci")
 grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 head(grid)
 ```
-The data is an object of class `"sf" "data.frame"` with spatial polygons covering our study area and a few columns indicating the number of activities (e.g. jobs, schools, population) in each polygon. Our particular sample data is based on a spatial hexagonal grid (H3 index). While there are advantages of using regular spatial grids to calculate spatial statistics, **uci** also works with non-regular geometris, such as census tracts, enumeration areas or municipalities.
+The data is an object of class `"sf" "data.frame"` with spatial polygons covering our study area and a few columns indicating the number of activities (e.g. jobs, schools, population) in each polygon. Our particular sample data is based on a spatial hexagonal grid (H3 index). While there are advantages of using regular spatial grids to calculate spatial statistics, **uci** also works with non-regular geometries, such as census tracts, enumeration areas or municipalities.
 
 We can visualize the spatial distribution of jobs using `ggplot2`:
 
@@ -86,7 +84,7 @@ head(df)
 
 ## Formal definition of UCI
 
-The **Urban Centrality Index (UCI)** is given by the product of the Location Coefficient (LC) and the Proximity Index (PI). With this formulation, UCI calculates urban centrality simultenously accountig for both the *concentration* of activities and the *proximity* between activities.
+The **Urban Centrality Index (UCI)** is given by the product of the Location Coefficient (LC) and the Proximity Index (PI). With this formulation, UCI calculates urban centrality simultaneously accounting for both the *concentration* of activities and the *proximity* between activities.
 
 $$
 \begin{aligned}
@@ -104,7 +102,7 @@ $$
 
 where `Si` is the share of employment in area i (Ei) relative to the total employment (E) of the city; E is the total number of jobs in a city; and n = number of areas.
 
-Meanwhile, the **Proximity Index (PI)** is a trasformation that @pereira2013urbancentrality proposed for the Venables index, originally developed by @midelfart2002integration to examine changes in the spatial distribution of economic activity. The Venables index (*aka* spatial separation index) is defined as:
+Meanwhile, the **Proximity Index (PI)** is a transformation that @pereira2013urbancentrality proposed for the Venables index, originally developed by @midelfart2002integration to examine changes in the spatial distribution of economic activity. The Venables index (*aka* spatial separation index) is defined as:
 
 $$
 \begin{aligned}
@@ -125,26 +123,26 @@ $$
 
 The normalization by `Vmax` is what makes the comparison of urban areas of different shapes and sizes possible. However, the estimation of `Vmax` is not trivial, because it has no closed-form solution. In a very simple square grid, `Vmax` is obtained when each corner has one-fourth of the total employment. In a region forming a perfect circle, the maximum value of V occurs when all employment is evenly distributed along the external edge.
 
-In the original paper, @pereira2013urbancentrality proposed a simple heuristic approach to calculate `Vmax`(the "opposite of maximum proximity") as a homogeneous distribution of values along the edge of the study area. This is the default strategy used in the `uci()` function with the default parameter `boostrap_border = FALSE`. Nonetheless, the users can also use a boostrap simulation approach to estimate `Vmax` by setting `boostrap_border = TRUE`.
+In the original paper, @pereira2013urbancentrality proposed a simple heuristic approach to calculate `Vmax`(the "opposite of maximum proximity") as a homogeneous distribution of values along the edge of the study area. This is the default strategy used in the `uci()` function with the default parameter `bootstrap_border = FALSE`. Nonetheless, the users can also use a bootstrap simulation approach to estimate `Vmax` by setting `bootstrap_border = TRUE`.
 
-### Boostraping `Vmax`
+### Bootstraping `Vmax`
 
-Using boostrap to find max Venables spatial separation:
+Using bootstrap to find max Venables spatial separation:
 
 ```{r}
 df_bootstrap <- uci(
   sf_object = grid,
   var_name = 'jobs',
-  boostrap_border = TRUE,
+  bootstrap_border = TRUE,
   showProgress = FALSE
 )
 
 head(df_bootstrap)
 ```
 
-This boostrap approach simulates 20000 random distributions of activities along the border. It practice, it works interacting two simulations: (1) it simulates that all jobs are concentrated in up to 2, 3, 4, 5 ... 51 polygons along the border, and (2) for each number of selected polygons, it shuffles 400 random positions of those polygons along the border.
+This bootstrap approach simulates 20000 random distributions of activities along the border. It practice, it works interacting two simulations: (1) it simulates that all jobs are concentrated in up to 2, 3, 4, 5 ... 51 polygons along the border, and (2) for each number of selected polygons, it shuffles 400 random positions of those polygons along the border.
 
-The boostrap approach is more computationally expensive but it returns `Vmax` values that can be between 5 and 25% higher than the heuristic approach. Although the boostrap simulation might still not return the maximum theoretical value of spatial separation, it is probably very close to it
+The bootstrap approach is more computationally expensive but it returns `Vmax` values that can be between 5 and 25% higher than the heuristic approach. Although the bootstrap simulation might still not return the maximum theoretical value of spatial separation, it is probably very close to it
 
 
 # References

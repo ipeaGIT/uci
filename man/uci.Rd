@@ -7,7 +7,7 @@
 \alias{uci-package}
 \title{Urban Centrality Index}
 \usage{
-uci(sf_object, var_name, boostrap_border = FALSE, showProgress = TRUE)
+uci(sf_object, var_name, bootstrap_border = FALSE, showProgress = TRUE)
 }
 \arguments{
 \item{sf_object}{A \verb{POLYGON sf data.frame} of the study area.}
@@ -16,21 +16,21 @@ uci(sf_object, var_name, boostrap_border = FALSE, showProgress = TRUE)
 number of activities/opportunities/resources/services to be considered
 when calculating urban centrality levels.}
 
-\item{boostrap_border}{A \code{logical}. The calculation of UCI requires one to
+\item{bootstrap_border}{A \code{logical}. The calculation of UCI requires one to
 find the maximum value of the Venables spatial separation index of the
-study area. If \code{boostrap_border = FALSE} (Default), the function uses
+study area. If \code{bootstrap_border = FALSE} (Default), the function uses
 a heuristic approach that assumes that the max spatial separation would
-occur when all activities were equaly distributed along the border of
+occur when all activities were equally distributed along the border of
 the study  area. This is a fast approach, but it does not reach the
-maximum spatial separation. Alternatively, if \code{boostrap_border = FALSE},
-the function uses a boostrap approach that simulates 20000 random
+maximum spatial separation. Alternatively, if \code{bootstrap_border = FALSE},
+the function uses a bootstrap approach that simulates 20000 random
 distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
 although it might not return the maximum theoretical value of spatial
 separation, it is probably very close to it.}
 
 \item{showProgress}{A \code{logical}. Indicates whether to show a progress bar for the
-boostrap simulation. Defaults to \code{TRUE}.}
+bootstrap simulation. Defaults to \code{TRUE}.}
 }
 \description{
 Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \doi{10.1111/gean.12002}.
@@ -44,7 +44,7 @@ Calculate Urban Centrality Index
 \section{Usage}{
 
 Please check the vignettes and data documentation on the
-\href{https://rafapereirabr.github.io/uci/}{website}.
+\href{https://ipeagit.github.io/uci/index.html}{website}.
 }
 
 \examples{
@@ -56,15 +56,15 @@ grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 df <- uci(
         sf_object = grid,
         var_name = 'jobs',
-        boostrap_border = FALSE
+        bootstrap_border = FALSE
         )
 head(df)
 
-# calculate UCI with boostrap
+# calculate UCI with bootstrap
 df2 <- uci(
         sf_object = grid,
         var_name = 'jobs',
-        boostrap_border = TRUE,
+        bootstrap_border = TRUE,
         showProgress = TRUE
         )
 head(df2)

@@ -1,4 +1,4 @@
-<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/Becerra_2015.png" alt="ipea" width="250">
+<img align="right" src="https://github.com/ipeaGIT/uci/raw/main/man/figures/uci_hex.png" alt="ipea" width="250">
 
 # uci: Urban Centrality Index
 
@@ -52,7 +52,7 @@ head(grid)
 df <- uci(
        sf_object = grid,
        var_name = 'jobs',
-       boostrap_border = FALSE,
+       bootstrap_border = FALSE,
        showProgress = TRUE
        )
 
@@ -87,5 +87,5 @@ BibTeX:
 }
 ```
 
-# Aknowledgement
-The Hex image above illustrates Christaller’s Central Place Theory. It was created by Christaller and adapted by Becerra, 2015.
+# Acknowledgement
+The Hex image above illustrates Christaller’s Central Place Theory. It was adapted from an image originally created by Christaller and adapted by Becerra, 2015.

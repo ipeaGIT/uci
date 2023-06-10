@@ -10,20 +10,20 @@
 #' @param var_name A `string`. The name of the column in `sf_object` with the 
 #'        number of activities/opportunities/resources/services to be considered 
 #'        when calculating urban centrality levels.
-#' @param boostrap_border A `logical`. The calculation of UCI requires one to 
+#' @param bootstrap_border A `logical`. The calculation of UCI requires one to 
 #'        find the maximum value of the Venables spatial separation index of the 
-#'        study area. If `boostrap_border = FALSE` (Default), the function uses 
+#'        study area. If `bootstrap_border = FALSE` (Default), the function uses 
 #'        a heuristic approach that assumes that the max spatial separation would 
-#'        occur when all activities were equaly distributed along the border of 
+#'        occur when all activities were equally distributed along the border of 
 #'        the study  area. This is a fast approach, but it does not reach the 
-#'        maximum spatial separation. Alternatively, if `boostrap_border = FALSE`, 
-#'        the function uses a boostrap approach that simulates 20000 random 
+#'        maximum spatial separation. Alternatively, if `bootstrap_border = FALSE`, 
+#'        the function uses a bootstrap approach that simulates 20000 random 
 #'        distributions of activities along the border and uses the max spatial 
 #'        separation found. This approach is more computationally expensive and
 #'        although it might not return the maximum theoretical value of spatial
 #'        separation, it is probably very close to it.
 #' @param showProgress A `logical`. Indicates whether to show a progress bar for the
-#'        boostrap simulation. Defaults to `TRUE`.
+#'        bootstrap simulation. Defaults to `TRUE`.
 #' 
 #' @family urban centrality index
 #'
@@ -36,29 +36,29 @@
 #' df <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
-#'         boostrap_border = FALSE
+#'         bootstrap_border = FALSE
 #'         )
 #' head(df)
 #' 
-#' # calculate UCI with boostrap
+#' # calculate UCI with bootstrap
 #' df2 <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
-#'         boostrap_border = TRUE,
+#'         bootstrap_border = TRUE,
 #'         showProgress = TRUE
 #'         )
 #' head(df2)
 #' @export
 uci <- function(sf_object, 
                 var_name, 
-                boostrap_border = FALSE,
+                bootstrap_border = FALSE,
                 showProgress = TRUE
                 ){
   
   # check inputs
   checkmate::assert_class(sf_object, 'sf')
   checkmate::assert_string(var_name)
-  checkmate::assert_logical(boostrap_border, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(bootstrap_border, len = 1, any.missing = FALSE)
   checkmate::assert_logical(showProgress, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
   
@@ -121,19 +121,19 @@ uci <- function(sf_object,
   distance_border <- get_distance_matrix(sf_border)
   
   ### HEURISTIC max venables considering full border
-  if(isFALSE(boostrap_border)) {
+  if(isFALSE(bootstrap_border)) {
     
-    b_boostrap_border <- simulate_border_config(
+    b_bootstrap_border <- simulate_border_config(
       sf_object = sf_border,
       nbc = 1, # nbc does not matter
       output = 'vector',
-      boostrap_border = boostrap_border
+      bootstrap_border = bootstrap_border
     )
-    max_venables <- venables(b = b_boostrap_border, distance = distance_border)
+    max_venables <- venables(b = b_bootstrap_border, distance = distance_border)
   }
   
-  ### BOOSTRAP simulations to find max venables
-  if (isTRUE(boostrap_border)) {
+  ### bootstrap simulations to find max venables
+  if (isTRUE(bootstrap_border)) {
     
     # input for number of simulations
     number_busy_cells <- 2:51
@@ -142,13 +142,13 @@ uci <- function(sf_object,
     # linear
     # if (isFALSE(parallel)) {
       
-      set.seed(42)
+      # set.seed(42)
       all_sim <- lapply(
         X = all_sim_input,
         FUN = simulate_border_config,
         sf_object = sf_border,
         output = 'vector',
-        boostrap_border = boostrap_border
+        bootstrap_border = bootstrap_border
       )
     # }
     
@@ -161,7 +161,7 @@ uci <- function(sf_object,
     #     .f = simulate_border_config,
     #     sf_object = sf_border,
     #     output = 'vector',
-    #     boostrap_border = boostrap_border,
+    #     bootstrap_border = bootstrap_border,
     #     .progress = showProgress,
     #     .options = furrr_options(seed = 42)
     #   )
