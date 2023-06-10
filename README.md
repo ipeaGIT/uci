@@ -7,12 +7,9 @@
 [![Lifecycle:
      experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 
-**uci** is an `R` package to calculate the Urban Centrality Index (UCI) originally proposed by Pereira et al., (2013). The UCI measures the extent to which the spatial organization of a city or region varies from extreme monocentric to extreme polycentric in a continuous scale from 0 to 1. Values close to 0 indicate more polycentric patterns and values close to 1 indicate a more monocentric urban form.
+**uci** is an `R` package to calculate the Urban Centrality Index (UCI) originally proposed by Pereira et al., (2013). The UCI measures the extent to which the spatial organization of a city or region varies from extreme monocentric to extreme polycentric in a continuous scale from 0 to 1. Values close to 0 indicate more polycentric patterns and values close to 1 indicate a more monocentric urban form. More info on [this vignette](https://ipeagit.github.io/uci/articles/uci.html).
 
-- Pereira, R. H. M., Nadalin, V., Monasterio, L., & Albuquerque, P. H. (2013). **Urban centrality: a simple index**. *Geographical analysis*, 45(1), 77-89. [https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002](https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002)
-  - [Link to ungated PDF](https://www.urbandemographics.org/publication/2013_urban_centrality_index/)
-
-
+* [Link to ungated PDF of the Pereira et al., (2013) paper](https://www.urbandemographics.org/publication/2013_urban_centrality_index/)
 
 ## Installation
 
@@ -60,4 +57,30 @@ head(df)
 #>         UCI location_coef spatial_separation spatial_separation_max
 #> 1 0.2538635     0.5278007           3880.114               7475.899
 
+```
+
+
+
+# Citation <img align="right" src="r-package/man/figures/ipea_logo.png" alt="ipea" width="300">
+
+ The R package **uci** is developed by a team at the Institute for Applied 
+ Economic Research (Ipea), Brazil. If you use this package in research 
+ publications, we please cite it as:
+
+* Pereira, R. H. M., Nadalin, V., Monasterio, L., & Albuquerque, P. H. (2013). **Urban centrality: a simple index**. *Geographical analysis*, 45(1), 77-89. [https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002](https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002)
+
+
+BibTeX:
+```
+@article{pereira2013urbancentrality,
+  title = {Urban {{Centrality}}: {{A Simple Index}}},
+  author = {Pereira, Rafael H. M. and Nadalin, Vanessa and Monasterio, Leonardo and Albuquerque, Pedro H. M.},
+  year = {2013},
+  journal = {Geographical Analysis},
+  volume = {45},
+  number = {1},
+  pages = {77--89},
+  issn = {1538-4632},
+  doi = {10.1111/gean.12002}
+}
 ```
