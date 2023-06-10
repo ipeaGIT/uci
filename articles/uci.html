@@ -26,7 +26,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">uci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -86,7 +86,9 @@ more monocentric urban form.</p>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>For now, the package is only available from GitHub.</p>
+<p>#&gt;“rom CRAN:
+#&gt;”<code>{r, eval = FALSE} #&gt;"nstalled.packages('uci') #&gt;"</code>
+#&gt;” Development version from GitHub:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"ipeaGIT/uci"</span><span class="op">)</span></span></code></pre></div>
 </div>
@@ -165,11 +167,11 @@ area is considering its spatial distribution of jobs.</p>
 <p>The <strong>Urban Centrality Index (UCI)</strong> is given by the
 product of the Location Coefficient (LC) and the Proximity Index (PI).
 With this formulation, UCI calculates urban centrality simultenously
-accountig for both the <strong>concentration</strong> of activities and
-the <strong>proximity</strong> between activities.</p>
+accountig for both the <em>concentration</em> of activities and the
+<em>proximity</em> between activities.</p>
 <p><span class="math display">\[
 \begin{aligned}
-UCI = LC  * PI∣
+UCI = LC  * PI
 \end{aligned}
 \]</span> The <strong>Location Coefficient (LC)</strong> was introduced
 by <span class="citation">Florence (1948)</span> to measure the unequal
@@ -189,11 +191,11 @@ S_{i} = \frac{E_{i}}{E}
 <p>where <code>Si</code> is the share of employment in area i (Ei)
 relative to the total employment (E) of the city; E is the total number
 of jobs in a city; and n = number of areas.</p>
-<p>Meanwhile, the Proximity Index (PI) is a trasformation that <span class="citation">Pereira et al. (2013)</span> proposed for the Venables
-index originally developed by <span class="citation">Midelfart-Knarvik
-et al. (2002)</span> to examine changes in the spatial distribution of
-economic activity. The Venables index (<em>aka</em> spatial separation
-index) is defined as:</p>
+<p>Meanwhile, the <strong>Proximity Index (PI)</strong> is a
+trasformation that <span class="citation">Pereira et al. (2013)</span>
+proposed for the Venables index, originally developed by <span class="citation">Midelfart-Knarvik et al. (2002)</span> to examine
+changes in the spatial distribution of economic activity. The Venables
+index (<em>aka</em> spatial separation index) is defined as:</p>
 <p><span class="math display">\[
 \begin{aligned}
 V = S' * D * S  
@@ -207,14 +209,14 @@ matter where this spatial unit is located). However, the index has no
 <em>maximum</em> value and therefore cannot be compared across different
 spatial settings. To overcome this limitation, it is necessary to
 calculate the maximum attainable value of <code>V</code>.</p>
-<p>The created <strong>Proximity Index (PI)</strong> solves the
-normalization issue with <code>V</code> and changes its interpretation
-to suit our needs. The interpretation of PI is the opposite of
-<code>V</code>, with its theoretical range being <code>(0, 1)</code>.
-Values of PI closer to <code>1</code> mean that employment is clustered
-in one single center. If PI is <code>0</code>, employment is as
-spatially separated as possible. In other words, activities are
-distributed in a way that maximizes the distances between them.</p>
+<p>The <strong>Proximity Index (PI)</strong> solves the normalization
+issue with <code>V</code> and changes its interpretation to suit our
+needs. The interpretation of PI is the opposite of <code>V</code>, with
+its theoretical range being <code>(0, 1)</code>. Values of PI closer to
+<code>1</code> mean that employment is clustered in one single center.
+If PI is <code>0</code>, employment is as spatially separated as
+possible. In other words, activities are distributed in a way that
+maximizes the distances between them.</p>
 <p><span class="math display">\[
 \begin{aligned}
 P = 1 - \frac{V}{V_{max}}
