@@ -6,3 +6,4 @@ Duration: 48.7s
 0 errors ✔ | 0 warnings ✔ | 0 notes ✔
 
 * This is a new release.
+* Fixed links and DOI

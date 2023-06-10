@@ -1,6 +1,6 @@
 #' Urban Centrality Index
 #'
-#' Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) <https://doi.org/10.1111/gean.12002>. 
+#' Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \doi{10.1111/gean.12002}. 
 #' The UCI measures the extent to which the spatial organization of a city or 
 #' region varies from extreme monocentric to extreme polycentric in a continuous 
 #' scale from 0 to 1. Values close to 0 indicate more polycentric patterns and 

@@ -33,7 +33,7 @@ separation, it is probably very close to it.}
 boostrap simulation. Defaults to \code{TRUE}.}
 }
 \description{
-Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \url{https://doi.org/10.1111/gean.12002}.
+Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \doi{10.1111/gean.12002}.
 The UCI measures the extent to which the spatial organization of a city or
 region varies from extreme monocentric to extreme polycentric in a continuous
 scale from 0 to 1. Values close to 0 indicate more polycentric patterns and
@@ -72,9 +72,9 @@ head(df2)
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/rafapereirabr/uci}
+  \item \url{https://github.com/ipeaGIT/uci}
   \item \url{https://ipeagit.github.io/uci/}
-  \item Report bugs at \url{https://github.com/rafapereirabr/uci/issues}
+  \item Report bugs at \url{https://github.com/ipeaGIT/uci/issues}
 }
 
 }
