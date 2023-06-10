@@ -67,7 +67,7 @@ head(df)
 
  The R package **uci** is developed by a team at the Institute for Applied 
  Economic Research (Ipea), Brazil. If you use this package in research 
- publications, we please cite it as:
+ publications, please cite it as:
 
 * Pereira, R. H. M., Nadalin, V., Monasterio, L., & Albuquerque, P. H. (2013). **Urban centrality: a simple index**. *Geographical analysis*, 45(1), 77-89. [https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002](https://onlinelibrary.wiley.com/doi/abs/10.1111/gean.12002)
 
