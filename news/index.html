@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">uci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0999</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,10 +48,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="development version" id="uci-development-version">uci (development version)<a class="anchor" aria-label="anchor" href="#uci-development-version"></a></h2>
+<div class="section level3">
+<h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
+<ul><li>The <code>uci</code> function now has a new parameter <code>dist_type</code> that allows users to choose whether calculations should be based on <code>"euclidean"</code> distances (Default) or <code>"spatial_link"</code> distances. Spatial link distances consider Euclidean distances along the links of spatial neighbour links. In the case of areas with a concave shape (like a bay), it is strongly recommended to use <code>"spatial_link"</code> distances (even though they are computationally more costly) because simple Euclidean distances can bias UCI estimates in those cases.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="uci-010">uci 0.1.0<a class="anchor" aria-label="anchor" href="#uci-010"></a></h2><p class="text-muted">CRAN release: 2023-06-11</p>
 <ul><li>Initial CRAN release.</li>
 </ul></div>
-  </main></div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside></div>
 
 
     <footer><div class="pkgdown-footer-left">
