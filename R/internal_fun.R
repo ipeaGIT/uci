@@ -23,14 +23,19 @@ location_coef <- function(x){
 # Venables, Spatial Separation index
 #' @keywords internal
 venables <- function(b, distance){
+  
+  # IF (Error in t(b) %*% distance : non-conformable arguments)
+  # there are probalby islands of polygons in the input sf_object
+  # dist_type spatial link
+  # uci does 
   v <- t(b) %*% distance %*% b
   return(v[1])
 }
 
 
-# calculate distance matrix
+# calculate Euclidean distance matrix
 #' @keywords internal
-get_distance_matrix <- function(sf_object){
+get_euclidean_dist_matrix <- function(sf_object){
   
   coords <- suppressWarnings(sf::st_coordinates( sf::st_centroid(sf_object) ))
   distance <- fields::rdist(coords)
@@ -45,6 +50,66 @@ get_distance_matrix <- function(sf_object){
   return(distance)
 }
 
+# calculate spatial link distance matrix
+#' @keywords internal
+get_spatial_link_dist_matrix <- function(sf_object){
+  
+  # get distance between neighbors
+  geo <- sf::st_geometry(sf_object)
+  
+  ## using sfdep
+    # nb <- sfdep::st_contiguity(geo)
+    # suppressMessages( dists <- sfdep::st_nb_dists(geo, nb) )
+  ## using spdep
+    nb <- spdep::poly2nb(geo, queen=FALSE)
+    point_surface <-  sf::st_point_on_surface(geo)
+    suppressWarnings( dists <- spdep::nbdists(nb, point_surface, longlat = FALSE) )
+    
+  # fun to convert nb dist to a data.frame in long format
+  nb_list_to_df <- function(nb, dists) {
+    
+    ## sfdep
+    # mtrx <- sfdep::wt_as_matrix(nb, dists)
+    ## spdep
+    listw <- spdep::nb2listw(nb, dists, style = "B") # zero policy FALSE ?
+    mtrx <- spdep::listw2mat(listw)
+    
+    matrix_length <- 1:length(mtrx[1,])
+    
+    # FULL MATRIX
+    mtrx_long <- cbind(
+      data.table::as.data.table(
+        data.table::CJ(matrix_length, matrix_length)), # df two columns
+      'dist' = as.vector(mtrx)  # matrix values in a vector
+    )
+    
+    # keep only dist between neighbors
+    mtrx_long <- subset(mtrx_long, dist >0)
+    data.table::setnames(mtrx_long, c('from', 'to', 'dist'))
+    
+    return(mtrx_long)
+  }
+  
+  # convert nb dist to a data.frame in long format
+  od_df <- nb_list_to_df(nb, dists)
+  
+  # create graph
+  graph  <-  cppRouting::makegraph(od_df, directed = F)
+  
+  # distances
+  dist_link <- cppRouting::get_distance_matrix(Graph=graph, 
+                                               from = unique(od_df$from), 
+                                               to = unique(od_df$from), 
+                                               algorithm = 'mch')
+  
+  # self distance >> REF Crafts & Mulatu (2006)
+  # IMPORTANT: the area must be in the same unit as the distance matrix####
+  n_reg <- nrow(dist_link)
+  poly_areas <- sf::st_area(sf_object)
+  self <- diag((poly_areas/pi)^(1/2), nrow=n_reg, ncol=n_reg)
+  dist_link <- dist_link+self ## Sum distance matrix and self-distance
+  return(dist_link)
+  }
 
 # normalize distribution of variable
 #' @keywords internal

@@ -39,10 +39,6 @@ devtools::spell_check(pkg = ".", vignettes = TRUE, use_wordlist = TRUE)
 
 
 
-# checks spelling
-library(spelling)
-devtools::spell_check(pkg = ".", vignettes = TRUE, use_wordlist = TRUE)
-
 
 ### Check URL's----------------
 
@@ -95,3 +91,10 @@ system("R CMD build . --resave-data") # build tar.gz
 
 
 
+library(dlstats)
+library(ggplot2)
+x <- dlstats::cran_stats(packages = c( 'cppRouting'))
+
+head(x)
+ggplot(x, aes(end, downloads, group=package, color=package)) +
+  geom_line() + geom_point(aes(shape=package))

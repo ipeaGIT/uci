@@ -1,7 +1,7 @@
 Type: Package
 Package: uci
 Title: Urban Centrality Index
-Version: 0.1.0
+Version: 0.1.0999
 Authors@R: c(
     person("Rafael H. M.", "Pereira", , "rafa.pereira.br@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2125-7465"))
@@ -9,7 +9,7 @@ Authors@R: c(
 Description: Calculates the Urban Centrality Index (UCI) as in Pereira et al., 
              (2013) <doi:10.1111/gean.12002>. The UCI measures the 
              extent to which the spatial organization of a city or region varies 
-             from extreme monocentric to extreme polycentric in a continuous 
+             from extreme polycentric to extreme monocentric in a continuous 
              scale from 0 to 1. Values closer to 0 indicate more polycentric patterns
              and values closer to 1 indicate a more monocentric urban form.
 License: MIT + file LICENSE
@@ -20,9 +20,12 @@ Depends:
     R (>= 4.2.0)
 Imports:
     checkmate,
+    cppRouting,
+    data.table,
     pbapply,
     fields,
     sf,
+    spdep,
     utils
 Suggests: 
     covr,

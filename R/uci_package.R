@@ -11,10 +11,11 @@
 #' @aliases uci-package
 #'
 #' @importFrom utils globalVariables
+#' @importFrom stats dist
 "_PACKAGE"
 
 
 ## quiets concerns of R CMD check re: the .'s that appear in pipelines
-utils::globalVariables( c('b',
-                          'c') )
+utils::globalVariables( c('dist',
+                          'a') )
 

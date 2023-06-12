@@ -7,7 +7,13 @@
 \alias{uci-package}
 \title{Urban Centrality Index}
 \usage{
-uci(sf_object, var_name, bootstrap_border = FALSE, showProgress = TRUE)
+uci(
+  sf_object,
+  var_name,
+  dist_type = "euclidean",
+  bootstrap_border = FALSE,
+  showProgress = TRUE
+)
 }
 \arguments{
 \item{sf_object}{A \verb{POLYGON sf data.frame} of the study area.}
@@ -16,21 +22,29 @@ uci(sf_object, var_name, bootstrap_border = FALSE, showProgress = TRUE)
 number of activities/opportunities/resources/services to be considered
 when calculating urban centrality levels.}
 
+\item{dist_type}{A \code{string} indicating whether calculations should be based
+on \code{"euclidean"} distances (Default) or \code{"spatial_link"} distances.
+Spatial link distances consider Euclidean distances along the links of
+spatial neighbor links. In the case of areas with a concave shape
+(like a bay), it is strongly recommended to use \code{"spatial_link"}
+distances (even though they are computationally more costly) because
+simple Euclidean distances can bias UCI estimates in those cases.}
+
 \item{bootstrap_border}{A \code{logical}. The calculation of UCI requires one to
 find the maximum value of the Venables spatial separation index of the
 study area. If \code{bootstrap_border = FALSE} (Default), the function uses
-a heuristic approach that assumes that the max spatial separation would
-occur when all activities were equally distributed along the border of
-the study  area. This is a fast approach, but it does not reach the
-maximum spatial separation. Alternatively, if \code{bootstrap_border = FALSE},
+a heuristic approach that assumes that the max spatial separation
+would occur when all activities were equally distributed along the
+border of the study  area. This is a fast approach, but it does not
+reach the maximum spatial separation. Alternatively, if \code{bootstrap_border = FALSE},
 the function uses a bootstrap approach that simulates 20000 random
 distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
 although it might not return the maximum theoretical value of spatial
 separation, it is probably very close to it.}
 
-\item{showProgress}{A \code{logical}. Indicates whether to show a progress bar for the
-bootstrap simulation. Defaults to \code{TRUE}.}
+\item{showProgress}{A \code{logical}. Indicates whether to show a progress bar for
+the bootstrap simulation. Defaults to \code{TRUE}.}
 }
 \description{
 Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \doi{10.1111/gean.12002}.
@@ -56,6 +70,7 @@ grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
 df <- uci(
         sf_object = grid,
         var_name = 'jobs',
+        dist_type = "euclidean",
         bootstrap_border = FALSE
         )
 head(df)
@@ -64,6 +79,7 @@ head(df)
 df2 <- uci(
         sf_object = grid,
         var_name = 'jobs',
+        dist_type = "euclidean",
         bootstrap_border = TRUE,
         showProgress = TRUE
         )

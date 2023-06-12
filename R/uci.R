@@ -10,20 +10,27 @@
 #' @param var_name A `string`. The name of the column in `sf_object` with the 
 #'        number of activities/opportunities/resources/services to be considered 
 #'        when calculating urban centrality levels.
+#' @param dist_type A `string` indicating whether calculations should be based 
+#'        on `"euclidean"` distances (Default) or `"spatial_link"` distances. 
+#'        Spatial link distances consider Euclidean distances along the links of 
+#'        spatial neighbor links. In the case of areas with a concave shape 
+#'        (like a bay), it is strongly recommended to use `"spatial_link"` 
+#'        distances (even though they are computationally more costly) because 
+#'        simple Euclidean distances can bias UCI estimates in those cases.
 #' @param bootstrap_border A `logical`. The calculation of UCI requires one to 
 #'        find the maximum value of the Venables spatial separation index of the 
 #'        study area. If `bootstrap_border = FALSE` (Default), the function uses 
-#'        a heuristic approach that assumes that the max spatial separation would 
-#'        occur when all activities were equally distributed along the border of 
-#'        the study  area. This is a fast approach, but it does not reach the 
-#'        maximum spatial separation. Alternatively, if `bootstrap_border = FALSE`, 
+#'        a heuristic approach that assumes that the max spatial separation 
+#'        would occur when all activities were equally distributed along the 
+#'        border of the study  area. This is a fast approach, but it does not 
+#'        reach the maximum spatial separation. Alternatively, if `bootstrap_border = FALSE`, 
 #'        the function uses a bootstrap approach that simulates 20000 random 
 #'        distributions of activities along the border and uses the max spatial 
 #'        separation found. This approach is more computationally expensive and
 #'        although it might not return the maximum theoretical value of spatial
 #'        separation, it is probably very close to it.
-#' @param showProgress A `logical`. Indicates whether to show a progress bar for the
-#'        bootstrap simulation. Defaults to `TRUE`.
+#' @param showProgress A `logical`. Indicates whether to show a progress bar for 
+#'        the bootstrap simulation. Defaults to `TRUE`.
 #' 
 #' @family urban centrality index
 #'
@@ -36,6 +43,7 @@
 #' df <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
+#'         dist_type = "euclidean",
 #'         bootstrap_border = FALSE
 #'         )
 #' head(df)
@@ -44,6 +52,7 @@
 #' df2 <- uci(
 #'         sf_object = grid,
 #'         var_name = 'jobs',
+#'         dist_type = "euclidean",
 #'         bootstrap_border = TRUE,
 #'         showProgress = TRUE
 #'         )
@@ -51,6 +60,7 @@
 #' @export
 uci <- function(sf_object, 
                 var_name, 
+                dist_type = "euclidean", 
                 bootstrap_border = FALSE,
                 showProgress = TRUE
                 ){
@@ -61,6 +71,11 @@ uci <- function(sf_object,
   checkmate::assert_logical(bootstrap_border, len = 1, any.missing = FALSE)
   checkmate::assert_logical(showProgress, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
+  
+  checkmate::assert_string(dist_type)
+  if(isFALSE(dist_type %in% c('spatial_link', 'euclidean'))){
+    stop("dist_type must be either 'spatial_link' or 'euclidean'")
+    }
   
   # config progress bar
   if (isFALSE(showProgress)) { 
@@ -86,26 +101,38 @@ uci <- function(sf_object,
   
   ###### observed Venables -----------------------------------------------------
   
-  # observed values
-  sf_object_observed <- sf_object[sf_object[var_name][[1]] >0, var_name]
-  # plot(sf_object_observed['jobs'])
-  
-  # normalize distribution of variable
-  var_x_norm <- normalize_distribution(sf_object_observed[var_name][[1]])
-  
-  # calculate distance matrix
-  distance <- get_distance_matrix(sf_object_observed)
-  
+  if (dist_type == 'euclidean') {
+    
+    # keep non-empty cells
+    sf_object_observed <-
+      sf_object[sf_object[var_name][[1]] > 0, var_name]
+    # plot(sf_object_observed['jobs'])
+    
+    # normalize distribution of variable
+    var_x_norm <-
+      normalize_distribution(sf_object_observed[var_name][[1]])
+    
+    # calculate distance matrix
+    distance <- get_euclidean_dist_matrix(sf_object_observed)
+    
+  } else if (dist_type == 'spatial_link') {
+    # plot(sf_object['jobs'])
+    
+    # normalize distribution of variable
+    var_x_norm <- normalize_distribution(sf_object[var_name][[1]])
+    
+    # calculate distance matrix
+    distance <- get_spatial_link_dist_matrix(sf_object)
+  }
+
   # Spatial separation index (venables)
   v_observed <- venables(var_x_norm, distance)
-  
-  rm(sf_object_observed, distance, var_x_norm)
   
   
   ###### Find MAX venables spatial separation ------------------------------------
   
   # get perimeter of whole area
-  boundary <- sf::st_union(sf_object) |> sf::st_boundary()
+  boundary <- sf::st_boundary( sf::st_union(sf_object) )
   
   # Determine which polygons are on the border
   int <- sf::st_intersects(sf_object, boundary)
@@ -114,14 +141,27 @@ uci <- function(sf_object,
   # plot(sf_object['border'])
   
   # keep only cells on the border
-  sf_border <- subset(sf_object, border ==1)
+  sf_border <- subset(sf_object, border == 1)
   # plot(sf_border['border'])
   
-  # calculate distance matrix
-  distance_border <- get_distance_matrix(sf_border)
+  # Distance matrix between border cells
+  if (dist_type == 'euclidean') {
+    
+    # calculate distance matrix
+    distance_border <- get_euclidean_dist_matrix(sf_border)
+  
+    } else if (dist_type == 'spatial_link') {
+    
+      # find positions of cells in the border 
+      border_positions <- which(sf_object$border == 1, arr.ind=TRUE)
+      
+      # filter dist matrix keeping only border cells
+      distance_border <- distance[border_positions, border_positions]
+    }
+      
   
   ### HEURISTIC max venables considering full border
-  if(isFALSE(bootstrap_border)) {
+  if (isFALSE(bootstrap_border)) {
     
     b_bootstrap_border <- simulate_border_config(
       sf_object = sf_border,
