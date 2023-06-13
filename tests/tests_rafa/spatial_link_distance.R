@@ -58,7 +58,7 @@ system.time(
   )
 )
 
-# soh parte 2 parallel 38.76
+# soh parte 2 parallel 42.20
 # tudo parallel  40.00
 
 system.time(
@@ -71,5 +71,5 @@ system.time(
     parallel = T
   )
 )
-# soh parte 2 parallel 17.49
+# soh parte 2 parallel 11
 # tudo parallel  12.00

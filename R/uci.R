@@ -199,52 +199,37 @@ uci <- function(sf_object,
     number_busy_cells <- 2:51
     all_sim_input <- rep(number_busy_cells, 400)
     
-    # linear
-    # if (isFALSE(parallel)) {
+
+    #### calculate venables of all simulations and get the max value
+    
+    ## run spatial simulations
+    all_sim <- lapply(
+      X = all_sim_input,
+      FUN = simulate_border_config,
+      sf_object = sf_border,
+      output = 'vector',
+      bootstrap_border = bootstrap_border)
+    
       
-      all_sim <- lapply(
-        X = all_sim_input,
-        FUN = simulate_border_config,
-        sf_object = sf_border,
-        output = 'vector',
-        bootstrap_border = bootstrap_border
+    ## calculate venables for all simulations
+    
+    # run sequentially
+    if (isFALSE(parallel)) {
+      all_sim_venables <- pbapply::pblapply(X = all_sim,
+                                            FUN = venables,
+                                            distance = distance_border)
+    }
+    # parallel
+    else if (isTRUE(parallel)) {
+      all_sim_venables <- furrr::future_map(
+        .x = all_sim,
+        .f = venables,
+        distance = distance_border,
+        .progress = showProgress
       )
-    # }
+    }
     
-    # # parallel
-    # if (isTRUE(parallel)) {
-    #   future::plan(future::multisession)
-    #   options(future.globals.maxSize = 891289600) # 850 MB
-    #   all_sim <- furrr::future_map(
-    #     .x = all_sim_input,
-    #     .f = simulate_border_config,
-    #     sf_object = sf_border,
-    #     output = 'vector',
-    #     bootstrap_border = bootstrap_border,
-    #     .progress = showProgress,
-    #     .options = furrr_options(seed = 42)
-    #   )
-    # }
-    
-    # calculate venables of all simulations and get the max value
-    
-       # Run sequentially or in parallel
-      if (isFALSE(parallel)) {
-        all_sim_venables <- pbapply::pblapply(X = all_sim,
-                                              FUN = venables,
-                                              distance = distance_border)
-        }
-      # parallel
-      if (isTRUE(parallel)) {
-        all_sim_venables <- furrr::future_map(
-          .x = all_sim,
-          .f = venables,
-          distance = distance_border,
-          .progress = showProgress
-        )
-      }
-    
-    # get max venables spatial separation value from all simulations
+    # get the max value of venables spatial separation from all simulations
     all_sim_venables <- unlist(all_sim_venables)
     max_venables <- max(all_sim_venables)
   }
