@@ -9,8 +9,10 @@ system.time(
   df_l <- uci(
     sf_object = grid,
     var_name = 'jobs',
-    dist_type = "spatial_link",
-    bootstrap_border = T,     parallel = F
+    dist_type = "euclidean",
+    bootstrap_border = T,
+    showProgress = T, 
+    parallel = T
 
   )
 )
@@ -20,7 +22,7 @@ system.time(
     sf_object = grid,
     var_name = 'jobs',
     dist_type = "euclidean",
-    bootstrap_border = T, 
+    bootstrap_border = F, 
     showProgress = T, 
     parallel = T
   )
@@ -52,17 +54,22 @@ system.time(
     bootstrap_border = T,
     showProgress = T, 
     parallel = T
-
+    
   )
 )
 
+# soh parte 2 parallel 38.76
+# tudo parallel  40.00
 
 system.time(
   df_e <- uci(
     sf_object = city,
     var_name = 'T001',
     dist_type = "euclidean",
-    bootstrap_border = T,
-    showProgress = T
+    bootstrap_border = F, 
+    showProgress = T, 
+    parallel = T
   )
 )
+# soh parte 2 parallel 17.49
+# tudo parallel  12.00
