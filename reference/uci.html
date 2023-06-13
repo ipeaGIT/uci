@@ -77,7 +77,8 @@ values close to 1 indicate a more monocentric urban form.</p>
 <span>  <span class="va">var_name</span>,</span>
 <span>  dist_type <span class="op">=</span> <span class="st">"euclidean"</span>,</span>
 <span>  bootstrap_border <span class="op">=</span> <span class="cn">FALSE</span>,</span>
-<span>  showProgress <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  showProgress <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -121,6 +122,14 @@ separation, it is probably very close to it.</p></dd>
 <dt>showProgress</dt>
 <dd><p>A <code>logical</code>. Indicates whether to show a progress bar for
 the bootstrap simulation. Defaults to <code>TRUE</code>.</p></dd>
+
+
+<dt>parallel</dt>
+<dd><p>Decides whether the function should run in parallel. Defaults
+is <code>FALSE.</code> When TRUE, it will use all cores available minus one using
+<code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code> with strategy <code>"multisession"</code> internally. Note that
+it is possible to create your own plan before calling uci(). In this
+case, do not use this argument.</p></dd>
 
 </dl></div>
     <div class="section level2">
@@ -169,7 +178,7 @@ the bootstrap simulation. Defaults to <code>TRUE</code>.</p></dd>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         UCI location_coef spatial_separation spatial_separation_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2554181     0.5278007           3880.114               7518.566</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2553874     0.5278007           3880.114                7517.72</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

@@ -52,6 +52,7 @@
 <div class="section level3">
 <h3 id="new-features-development-version">New features<a class="anchor" aria-label="anchor" href="#new-features-development-version"></a></h3>
 <ul><li>The <code>uci</code> function now has a new parameter <code>dist_type</code> that allows users to choose whether calculations should be based on <code>"euclidean"</code> distances (Default) or <code>"spatial_link"</code> distances. Spatial link distances consider Euclidean distances along the links of spatial neighbour links. In the case of areas with a concave shape (like a bay), it is strongly recommended to use <code>"spatial_link"</code> distances (even though they are computationally more costly) because simple Euclidean distances can bias UCI estimates in those cases.</li>
+<li>The <code>uci</code> function now has a new parameter <code>parallel</code>.</li>
 </ul></div>
 </div>
     <div class="section level2">
