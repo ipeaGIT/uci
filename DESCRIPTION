@@ -22,6 +22,8 @@ Imports:
     checkmate,
     cppRouting,
     data.table,
+    furrr,
+    future,
     pbapply,
     fields,
     sf,

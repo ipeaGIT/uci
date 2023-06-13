@@ -8,12 +8,14 @@ tester <- function(sf_object = grid,
                    var_name = 'jobs',
                    dist_type = 'euclidean',
                    bootstrap_border = FALSE,
-                   showProgress = TRUE) {
+                   showProgress = TRUE,
+                   parallel = FALSE) {
   uci(sf_object,
       var_name,
       dist_type,
       bootstrap_border,
-      showProgress)
+      showProgress,
+      parallel)
 }
 
 
@@ -24,6 +26,9 @@ test_that("expected behavior", {
   testthat::expect_is(result, "data.frame")
 
   result <- tester(dist_type = 'spatial_link')
+  testthat::expect_is(result, "data.frame")
+  
+  result <- tester(parallel = TRUE)
   testthat::expect_is(result, "data.frame")
   
   result <- tester(bootstrap_border = TRUE, showProgress = TRUE)
@@ -45,5 +50,6 @@ test_that("raises errors due to incorrect input", {
   testthat::expect_error(tester(dist_type = 123))
   testthat::expect_error(tester(bootstrap_border = 'banana'))
   testthat::expect_error(tester(showProgress = 'banana'))
-
+  testthat::expect_error(tester(parallel = 'banana'))
+  
 })

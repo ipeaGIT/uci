@@ -12,7 +12,8 @@ uci(
   var_name,
   dist_type = "euclidean",
   bootstrap_border = FALSE,
-  showProgress = TRUE
+  showProgress = TRUE,
+  parallel = FALSE
 )
 }
 \arguments{
@@ -45,6 +46,12 @@ separation, it is probably very close to it.}
 
 \item{showProgress}{A \code{logical}. Indicates whether to show a progress bar for
 the bootstrap simulation. Defaults to \code{TRUE}.}
+
+\item{parallel}{Decides whether the function should run in parallel. Defaults
+is \code{FALSE.} When TRUE, it will use all cores available minus one using
+\code{future::plan()} with strategy \code{"multisession"} internally. Note that
+it is possible to create your own plan before calling uci(). In this
+case, do not use this argument.}
 }
 \description{
 Calculates the Urban Centrality Index (UCI) as in Pereira et al., (2013) \doi{10.1111/gean.12002}.

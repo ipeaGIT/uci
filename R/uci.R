@@ -31,6 +31,11 @@
 #'        separation, it is probably very close to it.
 #' @param showProgress A `logical`. Indicates whether to show a progress bar for 
 #'        the bootstrap simulation. Defaults to `TRUE`.
+#' @param parallel Decides whether the function should run in parallel. Defaults 
+#'        is `FALSE.` When TRUE, it will use all cores available minus one using
+#'        `future::plan()` with strategy `"multisession"` internally. Note that 
+#'        it is possible to create your own plan before calling uci(). In this 
+#'        case, do not use this argument.
 #' 
 #' @family urban centrality index
 #'
@@ -62,7 +67,8 @@ uci <- function(sf_object,
                 var_name, 
                 dist_type = "euclidean", 
                 bootstrap_border = FALSE,
-                showProgress = TRUE
+                showProgress = TRUE,
+                parallel = FALSE
                 ){
   
   # check inputs
@@ -70,6 +76,7 @@ uci <- function(sf_object,
   checkmate::assert_string(var_name)
   checkmate::assert_logical(bootstrap_border, len = 1, any.missing = FALSE)
   checkmate::assert_logical(showProgress, len = 1, any.missing = FALSE)
+  checkmate::assert_logical(parallel, len = 1, any.missing = FALSE)
   assert_var_name(sf_object, var_name)
   
   checkmate::assert_string(dist_type)
@@ -78,18 +85,31 @@ uci <- function(sf_object,
     }
   
   # config progress bar
-  if (isFALSE(showProgress)) { 
-    pb_original <- pbapply::pboptions()
+  pb_original <- pbapply::pboptions()
+  if (isTRUE(showProgress)) {
+    pbapply::pboptions(char = "-")
+    on.exit(pbapply::pboptions(pb_original))
+  } else {
     pbapply::pboptions(type = "none")
-    on.exit( pbapply::pboptions(pb_original) )
+    on.exit(pbapply::pboptions(pb_original))
   }
   
+  # config parallel computing
+  if(parallel)
+  {
+    # number of cores
+    cores <- max(1, future::availableCores() - 1)
+    message(paste('Using', cores, 'CPU cores'))
+    
+    oplan <- future::plan("multisession", workers = cores)
+    on.exit(future::plan(oplan), add = TRUE)
+  }
   
   
   # change projection to UTM
   sf_object <- suppressWarnings(sf::st_transform(sf_object, 3857))
 
-  ###### observed Location Coefficient -----------------------------------------------------
+  ###### observed Location Coefficient -----------------------------------------
   
   # normalize distribution of variable
   var_x_norm <- normalize_distribution(sf_object[var_name][[1]])
@@ -129,7 +149,7 @@ uci <- function(sf_object,
   v_observed <- venables(var_x_norm, distance)
   
   
-  ###### Find MAX venables spatial separation ------------------------------------
+  ###### Find MAX venables spatial separation ----------------------------------
   
   # get perimeter of whole area
   boundary <- sf::st_boundary( sf::st_union(sf_object) )
@@ -182,7 +202,6 @@ uci <- function(sf_object,
     # linear
     # if (isFALSE(parallel)) {
       
-      # set.seed(42)
       all_sim <- lapply(
         X = all_sim_input,
         FUN = simulate_border_config,
@@ -209,22 +228,21 @@ uci <- function(sf_object,
     
     # calculate venables of all simulations and get the max value
     
-    # linear
-    # if (isFALSE(parallel)) {
-      
-      all_sim_venables <- pbapply::pblapply(X = all_sim,
-                                            FUN = venables,
-                                            distance = distance_border)
-      
-    # }
-    
-    # # parallel
-    # if (isTRUE(parallel)) {
-    #   all_sim_venables <- furrr::future_map(.x = all_sim,
-    #                                         .f = venables,
-    #                                         distance = distance_border,
-    #                                         .progress = showProgress)
-    # }
+       # Run sequentially or in parallel
+      if (isFALSE(parallel)) {
+        all_sim_venables <- pbapply::pblapply(X = all_sim,
+                                              FUN = venables,
+                                              distance = distance_border)
+        }
+      # parallel
+      if (isTRUE(parallel)) {
+        all_sim_venables <- furrr::future_map(
+          .x = all_sim,
+          .f = venables,
+          distance = distance_border,
+          .progress = showProgress
+        )
+      }
     
     # get max venables spatial separation value from all simulations
     all_sim_venables <- unlist(all_sim_venables)
@@ -234,7 +252,7 @@ uci <- function(sf_object,
   
   
   
-  ###### Calculate UCI -----------------------------------------------------
+  ###### Calculate UCI ---------------------------------------------------------
   
   # Proximity Index PI
   proximity_idex <- 1-(v_observed/max_venables)

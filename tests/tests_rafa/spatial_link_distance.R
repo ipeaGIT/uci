@@ -1,4 +1,5 @@
 library(uci)
+library(aopdata)
 
 data_dir <- system.file("extdata", package = "uci")
 grid <- readRDS(file.path(data_dir, "grid_bho.rds"))
@@ -9,7 +10,8 @@ system.time(
     sf_object = grid,
     var_name = 'jobs',
     dist_type = "spatial_link",
-    bootstrap_border = FALSE
+    bootstrap_border = T,     parallel = F
+
   )
 )
 
@@ -18,65 +20,49 @@ system.time(
     sf_object = grid,
     var_name = 'jobs',
     dist_type = "euclidean",
-    bootstrap_border = FALSE
+    bootstrap_border = T, 
+    showProgress = T, 
+    parallel = T
   )
 )
 
-
-
-
-
-
-
-
-
-sal <- aopdata::read_landuse(city = 'poa', geometry = T)
-plot(sal['T001'])
-
-system.time(
-  df_l <- uci(
-    sf_object = sal,
-    var_name = 'T001',
-    dist_type = "spatial_link",
-    bootstrap_border = T
-  )
-)
-# 0.5143592     
 
 system.time(
   df_e <- uci(
-    sf_object = sal,
-    var_name = 'T001',
+    sf_object = grid,
+    var_name = 'jobs',
     dist_type = "euclidean",
-    bootstrap_border = T
+    bootstrap_border = FALSE,  parallel = F
   )
 )
-# 0.5029455
-
-### belem-----------------
 
 
 
-bel <- aopdata::read_landuse(city = 'bel', geometry = T)
-plot(bel['T001'])
+
+
+
+city <- aopdata::read_landuse(city = 'spo', geometry = T)
+plot(city['T001'])
 
 system.time(
   df_l <- uci(
-    sf_object = bel,
+    sf_object = city,
     var_name = 'T001',
-    dist_type = "spatial_link",
-    bootstrap_border = F
+    dist_type = "euclidean",
+    bootstrap_border = T,
+    showProgress = T, 
+    parallel = T
+
   )
 )
-# 0.5143592     
 
-sfdep:::check_polygon()
 
 system.time(
   df_e <- uci(
-    sf_object = bel,
+    sf_object = city,
     var_name = 'T001',
     dist_type = "euclidean",
-    bootstrap_border = T
+    bootstrap_border = T,
+    showProgress = T
   )
 )
