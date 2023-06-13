@@ -4,6 +4,7 @@
 
 [![CRAN
    status](https://www.r-pkg.org/badges/version/uci)](https://CRAN.R-project.org/package=uci)
+   [![CRAN/METACRAN Total downloads](https://cranlogs.r-pkg.org/badges/grand-total/uci?color=blue)](https://CRAN.R-project.org/package=uci)
 [![R-CMD-check](https://github.com/ipeaGIT/uci/workflows/rcmdcheck/badge.svg)](https://github.com/ipeaGIT/uci/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/ipeaGIT/uci/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ipeaGIT/uci?branch=main)
