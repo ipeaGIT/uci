@@ -1,7 +1,7 @@
 
 
 ##### Coverage ------------------------
-library(uci)
+# library(uci)
 library(testthat)
 library(covr)
 Sys.setenv(NOT_CRAN = "true")

@@ -31,6 +31,9 @@ test_that("expected behavior", {
   result <- tester(parallel = TRUE)
   testthat::expect_is(result, "data.frame")
   
+  result <- tester(parallel = TRUE, bootstrap_border = TRUE)
+  testthat::expect_is(result, "data.frame")
+  
   result <- tester(bootstrap_border = TRUE, showProgress = TRUE)
   testthat::expect_is(result, "data.frame")
   

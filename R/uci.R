@@ -220,7 +220,7 @@ uci <- function(sf_object,
                                             distance = distance_border)
     }
     # parallel
-    else if (isTRUE(parallel)) {
+    if (isTRUE(parallel)) {
       all_sim_venables <- furrr::future_map(
         .x = all_sim,
         .f = venables,

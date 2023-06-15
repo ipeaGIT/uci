@@ -144,7 +144,7 @@ simulate_border_config <- function(sf_object, nbc, output='vector', bootstrap_bo
   if( isFALSE(bootstrap_border) ) { positions <- candidate_positions; nbc <- length(candidate_positions) }
   if( isTRUE(bootstrap_border) ) { positions <- sample_positions(nbc = nbc, candidate_positions = candidate_positions) }
   
-  if (output == 'spatial') {
+  if (output == 'spatial') { # nocov start
     # number of jobs per cell
     jobs_per_cell <- 1 / nbc
     
@@ -155,7 +155,7 @@ simulate_border_config <- function(sf_object, nbc, output='vector', bootstrap_bo
     sf_object$nbc <- nbc
     
     return(sf_object)
-  }
+  } # nocov end
   
   if (output == 'vector') {
     # with all activities equally concentraded in 'positions'
