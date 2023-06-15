@@ -76,7 +76,7 @@ tictoc::toc()
 
 
 # submit to CRAN -----------------
-usethis::use_cran_comments('teste 2222, , asdadsad')
+# usethis::use_cran_comments('teste 2222, , asdadsad')
 
 
 devtools::submit_cran()

@@ -23,7 +23,8 @@ coverage](https://codecov.io/gh/ipeaGIT/uci/branch/main/graph/badge.svg)](https:
 # from CRAN
 install.packages('uci')
 
-# development version from GitHub
+# or use the development version with latest features
+utils::remove.packages('uci')
 devtools::install_github("ipeaGIT/uci")
 ```
 
