@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">uci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,21 +48,28 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="development version" id="uci-development-version">uci (development version)<a class="anchor" aria-label="anchor" href="#uci-development-version"></a></h2>
-</div>
+<h2 class="pkg-version" data-toc-text="0.3.0" id="uci-030">uci 0.3.0<a class="anchor" aria-label="anchor" href="#uci-030"></a></h2>
+<ul><li>Major changes
+<ul><li>
+<code><a href="../reference/uci.html">uci()</a></code> now accepts columns with <code>NA</code> values. In such cases, <code>NA</code>s are replaced with zero as they represent zero activities.</li>
+<li>improved documentation</li>
+<li>The package now uses Queen contiguity (<code>spdep::poly2nb(geo, queen=TRUE)</code>) to determine neighboring polygons whe considering spatial link distances.</li>
+<li>Update vignette</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.2.0" id="uci-020">uci 0.2.0<a class="anchor" aria-label="anchor" href="#uci-020"></a></h2>
-<div class="section level3">
-<h3 id="new-features-0-2-0">New features<a class="anchor" aria-label="anchor" href="#new-features-0-2-0"></a></h3>
+<h2 class="pkg-version" data-toc-text="0.2.0" id="uci-020">uci 0.2.0<a class="anchor" aria-label="anchor" href="#uci-020"></a></h2><p class="text-muted">CRAN release: 2023-06-14</p>
+<ul><li>
+<p>Major changes</p>
 <ul><li>The <code>uci</code> function now has a new parameter <code>dist_type</code> that allows users to choose whether calculations should be based on <code>"euclidean"</code> distances (Default) or <code>"spatial_link"</code> distances. Spatial link distances consider Euclidean distances along the links of spatial neighbour links. In the case of areas with a concave shape (like a bay), it is strongly recommended to use <code>"spatial_link"</code> distances (even though they are computationally more costly) because simple Euclidean distances can bias UCI estimates in those cases.</li>
 <li>The <code>uci</code> function now has a new parameter <code>parallel</code> that speeds up calculations for large areas comprised with many polygons.</li>
-</ul></div>
-<div class="section level3">
-<h3 id="notes-0-2-0">Notes<a class="anchor" aria-label="anchor" href="#notes-0-2-0"></a></h3>
+</ul></li>
+<li>
+<p>Minor changes</p>
 <ul><li>Minor updates to documentation</li>
 <li>Performance improvments</li>
+</ul></li>
 </ul></div>
-</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.1.0" id="uci-010">uci 0.1.0<a class="anchor" aria-label="anchor" href="#uci-010"></a></h2><p class="text-muted">CRAN release: 2023-06-11</p>
 <ul><li>Initial CRAN release.</li>

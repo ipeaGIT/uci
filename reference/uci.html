@@ -22,7 +22,7 @@ Calculate Urban Centrality Index"><!-- mathjax --><script src="https://cdnjs.clo
     
     <a class="navbar-brand me-2" href="../index.html">uci</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -91,7 +91,8 @@ values close to 1 indicate a more monocentric urban form.</p>
 <dt>var_name</dt>
 <dd><p>A <code>string</code>. The name of the column in <code>sf_object</code> with the
 number of activities/opportunities/resources/services to be considered
-when calculating urban centrality levels.</p></dd>
+when calculating urban centrality levels. <code>NA</code> values are considered
+to be equal to <code>0</code>.</p></dd>
 
 
 <dt>dist_type</dt>
@@ -111,7 +112,7 @@ study area. If <code>bootstrap_border = FALSE</code> (Default), the function use
 a heuristic approach that assumes that the max spatial separation
 would occur when all activities were equally distributed along the
 border of the study  area. This is a fast approach, but it does not
-reach the maximum spatial separation. Alternatively, if <code>bootstrap_border = FALSE</code>,
+reach the maximum spatial separation. Alternatively, if <code>bootstrap_border = TRUE</code>,
 the function uses a bootstrap approach that simulates 20000 random
 distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
@@ -126,7 +127,7 @@ the bootstrap simulation. Defaults to <code>TRUE</code>.</p></dd>
 
 <dt>parallel</dt>
 <dd><p>Decides whether the function should run in parallel. Defaults
-is <code>FALSE.</code> When TRUE, it will use all cores available minus one using
+is <code>FALSE.</code> When <code>TRUE</code>, it will use all cores available minus one using
 <code><a href="https://future.futureverse.org/reference/plan.html" class="external-link">future::plan()</a></code> with strategy <code>"multisession"</code> internally. Note that
 it is possible to create your own plan before calling uci(). In this
 case, do not use this argument.</p></dd>
@@ -178,7 +179,7 @@ case, do not use this argument.</p></dd>
 <span class="r-in"><span>        <span class="op">)</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">df2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>         UCI location_coef spatial_separation spatial_separation_max</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2555112     0.5278007           3880.114               7521.136</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1 0.2558764     0.5278007           3880.114               7531.237</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
