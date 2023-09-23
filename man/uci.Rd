@@ -21,7 +21,8 @@ uci(
 
 \item{var_name}{A \code{string}. The name of the column in \code{sf_object} with the
 number of activities/opportunities/resources/services to be considered
-when calculating urban centrality levels.}
+when calculating urban centrality levels. \code{NA} values are considered
+to be equal to \code{0}.}
 
 \item{dist_type}{A \code{string} indicating whether calculations should be based
 on \code{"euclidean"} distances (Default) or \code{"spatial_link"} distances.
@@ -37,7 +38,7 @@ study area. If \code{bootstrap_border = FALSE} (Default), the function uses
 a heuristic approach that assumes that the max spatial separation
 would occur when all activities were equally distributed along the
 border of the study  area. This is a fast approach, but it does not
-reach the maximum spatial separation. Alternatively, if \code{bootstrap_border = FALSE},
+reach the maximum spatial separation. Alternatively, if \code{bootstrap_border = TRUE},
 the function uses a bootstrap approach that simulates 20000 random
 distributions of activities along the border and uses the max spatial
 separation found. This approach is more computationally expensive and
@@ -48,7 +49,7 @@ separation, it is probably very close to it.}
 the bootstrap simulation. Defaults to \code{TRUE}.}
 
 \item{parallel}{Decides whether the function should run in parallel. Defaults
-is \code{FALSE.} When TRUE, it will use all cores available minus one using
+is \code{FALSE.} When \code{TRUE}, it will use all cores available minus one using
 \code{future::plan()} with strategy \code{"multisession"} internally. Note that
 it is possible to create your own plan before calling uci(). In this
 case, do not use this argument.}

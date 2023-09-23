@@ -56,12 +56,13 @@ get_spatial_link_dist_matrix <- function(sf_object){
   
   # get distance between neighbors
   geo <- sf::st_geometry(sf_object)
+  # plot(geo)
   
   ## using sfdep
     # nb <- sfdep::st_contiguity(geo)
     # suppressMessages( dists <- sfdep::st_nb_dists(geo, nb) )
   ## using spdep
-    nb <- spdep::poly2nb(geo, queen=FALSE)
+    nb <- spdep::poly2nb(geo, queen=TRUE)
     point_surface <-  sf::st_point_on_surface(geo)
     suppressWarnings( dists <- spdep::nbdists(nb, point_surface, longlat = FALSE) )
     
@@ -84,8 +85,9 @@ get_spatial_link_dist_matrix <- function(sf_object){
     )
     
     # keep only dist between neighbors
-    mtrx_long <- subset(mtrx_long, dist >0)
     data.table::setnames(mtrx_long, c('from', 'to', 'dist'))
+    mtrx_long <- subset(mtrx_long, from != to)
+    mtrx_long <- subset(mtrx_long, dist > 0)
     
     return(mtrx_long)
   }
@@ -126,7 +128,7 @@ sample_positions <- function(nbc, candidate_positions){ # nbc = 50
   
   postions <- sample(x = candidate_positions,
                      size = nbc, 
-                     replace = FALSE)
+                     replace = TRUE)
   return(postions)
 }
 

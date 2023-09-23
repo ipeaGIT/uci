@@ -9,7 +9,8 @@
 #' @param sf_object A `POLYGON sf data.frame` of the study area.
 #' @param var_name A `string`. The name of the column in `sf_object` with the 
 #'        number of activities/opportunities/resources/services to be considered 
-#'        when calculating urban centrality levels.
+#'        when calculating urban centrality levels. `NA` values are considered 
+#'        to be equal to `0`.
 #' @param dist_type A `string` indicating whether calculations should be based 
 #'        on `"euclidean"` distances (Default) or `"spatial_link"` distances. 
 #'        Spatial link distances consider Euclidean distances along the links of 
@@ -23,7 +24,7 @@
 #'        a heuristic approach that assumes that the max spatial separation 
 #'        would occur when all activities were equally distributed along the 
 #'        border of the study  area. This is a fast approach, but it does not 
-#'        reach the maximum spatial separation. Alternatively, if `bootstrap_border = FALSE`, 
+#'        reach the maximum spatial separation. Alternatively, if `bootstrap_border = TRUE`, 
 #'        the function uses a bootstrap approach that simulates 20000 random 
 #'        distributions of activities along the border and uses the max spatial 
 #'        separation found. This approach is more computationally expensive and
@@ -32,7 +33,7 @@
 #' @param showProgress A `logical`. Indicates whether to show a progress bar for 
 #'        the bootstrap simulation. Defaults to `TRUE`.
 #' @param parallel Decides whether the function should run in parallel. Defaults 
-#'        is `FALSE.` When TRUE, it will use all cores available minus one using
+#'        is `FALSE.` When `TRUE`, it will use all cores available minus one using
 #'        `future::plan()` with strategy `"multisession"` internally. Note that 
 #'        it is possible to create your own plan before calling uci(). In this 
 #'        case, do not use this argument.
@@ -68,8 +69,7 @@ uci <- function(sf_object,
                 dist_type = "euclidean", 
                 bootstrap_border = FALSE,
                 showProgress = TRUE,
-                parallel = FALSE
-                ){
+                parallel = FALSE){
   
   # check inputs
   checkmate::assert_class(sf_object, 'sf')
@@ -95,15 +95,14 @@ uci <- function(sf_object,
   }
   
   # config parallel computing
-  if(parallel)
-  {
+  if (parallel) {
     # number of cores
     cores <- max(1, future::availableCores() - 1)
     message(paste('Using', cores, 'CPU cores'))
     
     oplan <- future::plan("multisession", workers = cores)
     on.exit(future::plan(oplan), add = TRUE)
-  }
+    }
   
   
   # change projection to UTM
@@ -111,8 +110,13 @@ uci <- function(sf_object,
 
   ###### observed Location Coefficient -----------------------------------------
   
+  # replace NAs with 0
+  var <- sf_object[var_name][[1]]
+  var <- data.table::fifelse(is.na(var), 0, var)
+  # var <- var[var > 0]
+  
   # normalize distribution of variable
-  var_x_norm <- normalize_distribution(sf_object[var_name][[1]])
+  var_x_norm <- normalize_distribution(var)
   
   # location coefficient
   LC <- location_coef(var_x_norm)
@@ -124,13 +128,14 @@ uci <- function(sf_object,
   if (dist_type == 'euclidean') {
     
     # keep non-empty cells
-    sf_object_observed <-
-      sf_object[sf_object[var_name][[1]] > 0, var_name]
-    # plot(sf_object_observed['jobs'])
+    sf_object_observed <- sf_object[ var > 0, var_name]
+    # plot(sf_object_observed['job_count'])
+    
+    summary(sf_object$jobs)
+    summary(sf_object_observed$jobs)
     
     # normalize distribution of variable
-    var_x_norm <-
-      normalize_distribution(sf_object_observed[var_name][[1]])
+    var_x_norm <- normalize_distribution( var[var > 0] )
     
     # calculate distance matrix
     distance <- get_euclidean_dist_matrix(sf_object_observed)
@@ -139,7 +144,7 @@ uci <- function(sf_object,
     # plot(sf_object['jobs'])
     
     # normalize distribution of variable
-    var_x_norm <- normalize_distribution(sf_object[var_name][[1]])
+    var_x_norm <- normalize_distribution( var )
     
     # calculate distance matrix
     distance <- get_spatial_link_dist_matrix(sf_object)
@@ -185,7 +190,7 @@ uci <- function(sf_object,
     
     b_bootstrap_border <- simulate_border_config(
       sf_object = sf_border,
-      nbc = 1, # nbc does not matter
+      nbc = 1, # nbc does not matter here, only when bootstrap_border = TRUE
       output = 'vector',
       bootstrap_border = bootstrap_border
     )
@@ -196,7 +201,8 @@ uci <- function(sf_object,
   if (isTRUE(bootstrap_border)) {
     
     # input for number of simulations
-    number_busy_cells <- 2:51
+    max_value <- max(51, nrow(nrow(sf_border)))
+    number_busy_cells <- 2:max_value
     all_sim_input <- rep(number_busy_cells, 400)
     
 
