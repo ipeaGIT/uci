@@ -3,7 +3,7 @@ pkgdown: 2.1.1
 pkgdown_sha: ~
 articles:
   uci: uci.html
-last_built: 2024-10-02T17:26Z
+last_built: 2025-02-12T21:43Z
 urls:
   reference: https://ipeagit.github.io/uci/reference
   article: https://ipeagit.github.io/uci/articles
