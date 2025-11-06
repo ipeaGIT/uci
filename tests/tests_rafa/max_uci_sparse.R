@@ -189,7 +189,9 @@ uci2 <- function(sf_object, var_name, full_border=FALSE, parallel = FALSE){
     
     # parallel
     if (isTRUE(parallel)) {
-      future::plan(future::multisession)
+
+      with(future::plan(future::multisession), local = TRUE)
+      
       oopts <- options()
       options(future.globals.maxSize = 1.0 * 1e9)  ## 1.0 GB
       on.exit(options(oopts))
